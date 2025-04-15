@@ -1,0 +1,9 @@
+{
+  "version": "v1",
+  "packages": {
+    "tailrix": {
+      "signature": "50d9a07191ce4ce0d26fe9088d000035",
+      "file": true
+    }
+  }
+}

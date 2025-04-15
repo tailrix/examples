@@ -1,0 +1,8 @@
+# remove unit in boolean feature
+# hide the api key and make it copiable
+# the add feature button doesn't work when adding a feature to a empty plan
+# adding feature to plan crashes with empty feature in add feature modal
+# handle error of creating the plan with the same name
+# creating a plan without featureset should be able to add a feature
+# make it obvious for the user to add featuresets to a plan
+# test invalid api key
