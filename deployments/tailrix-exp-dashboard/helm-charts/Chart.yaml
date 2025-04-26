@@ -6,5 +6,4 @@ dependencies:
     version: 0.1.0
 description: A Helm chart for tailrix frontend
 icon: https://raw.githubusercontent.com/jenkins-x/jenkins-x-platform/d273e09/images/go.png
-name: tailrixfrontend
 version: 0.1.0
