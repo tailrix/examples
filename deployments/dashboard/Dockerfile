@@ -5,7 +5,7 @@ FROM base AS deps
 WORKDIR /app
 
 # Install dependencies based on the preferred package manager
-COPY package.json package-lock.json* ./
+COPY dashboard/package.json dashboard/package-lock.json* ./
 RUN \
     if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
     elif [ -f package-lock.json ]; then npm ci; \
@@ -18,10 +18,7 @@ RUN \
 FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
-ADD app ./app
-ADD theme ./theme
-ADD public ./public
-COPY *.json *.ts *.mjs ./
+ADD dashboard .
 
 
 # Next.js collects completely anonymous telemetry data about general usage.
