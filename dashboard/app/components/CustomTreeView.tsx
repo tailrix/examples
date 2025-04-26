@@ -1,5 +1,4 @@
 'use client';
-import * as React from 'react';
 import clsx from 'clsx';
 import { animated, useSpring } from '@react-spring/web';
 import { TransitionProps } from '@mui/material/transitions';
@@ -23,6 +22,7 @@ import { TreeItem2Icon } from '@mui/x-tree-view/TreeItem2Icon';
 import { TreeItem2Provider } from '@mui/x-tree-view/TreeItem2Provider';
 import { TreeViewBaseItem } from '@mui/x-tree-view/models';
 import { useTheme } from '@mui/material/styles';
+import { forwardRef } from 'react';
 
 type Color = 'blue' | 'green';
 
@@ -103,7 +103,7 @@ interface CustomLabelProps {
   expandable?: boolean;
 }
 
-function CustomLabel({ color, expandable, children, ...other }: CustomLabelProps) {
+function CustomLabel({ color, children, ...other }: CustomLabelProps) {
   const theme = useTheme();
   const colors = {
     blue: (theme.vars || theme).palette.primary.main,
@@ -123,9 +123,9 @@ function CustomLabel({ color, expandable, children, ...other }: CustomLabelProps
 
 interface CustomTreeItemProps
   extends Omit<UseTreeItem2Parameters, 'rootRef'>,
-    Omit<React.HTMLAttributes<HTMLLIElement>, 'onFocus'> {}
+  Omit<React.HTMLAttributes<HTMLLIElement>, 'onFocus'> { }
 
-const CustomTreeItem = React.forwardRef(function CustomTreeItem(
+const CustomTreeItem = forwardRef(function CustomTreeItem(
   props: CustomTreeItemProps,
   ref: React.Ref<HTMLLIElement>,
 ) {
