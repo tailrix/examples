@@ -62,7 +62,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: deployments/tailrix-expo-dashboard/Dockerfile
+          file: deployments/tailrix-exp-dashboard/Dockerfile
           push: true
           tags: |
             ghcr.io/tailrix/tailrix-exp-dashboard:latest
