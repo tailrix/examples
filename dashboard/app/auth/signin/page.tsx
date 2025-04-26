@@ -27,7 +27,7 @@ function SignUpLink() {
 function DemoInfo() {
   return (
     <Alert severity="info">
-      You can use <strong>toolpad-demo@mui.com</strong> with the password <strong>@demo1</strong> to
+      You can use <strong>tailrix-demo@mui.com</strong> with the password <strong>@demo1</strong> to
       test
     </Alert>
   );

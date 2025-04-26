@@ -6,3 +6,19 @@
 # creating a plan without featureset should be able to add a feature
 # make it obvious for the user to add featuresets to a plan
 # test invalid api key
+
+
+
+
+* default value of boolean feature is empty
+* when change an established plan,  changing the features should send a warning that the new change would only apply to new plans
+
+
+
+
+------
+
+demo include:
+- user can upgrade/downgrade plans
+- has number/text/boolean features
+- has feature usage report 

@@ -1,0 +1,56 @@
+replicaCount: 1
+
+name: tailrix-exp-dashboard 
+
+image:
+  repository: ghcr.io/tailrix/tailrix-exp-dashboard 
+  pullPolicy: IfNotPresent
+
+service:
+  name: tailrix-exp-dashboard 
+  type: NodePort
+  externalPort: 8080
+  internalPort: 3000
+
+resources:
+  limits:
+    cpu: 200m
+    memory: 400Mi
+  requests:
+    cpu: 100m
+    memory: 200Mi
+
+hpa:
+  minReplicas: 1
+  maxReplicas: 2
+  targetCPU: 60
+  scaleDownLimit: 2
+  scaleDownPeriod: 180
+  scaleDownStabilization: 300
+
+ingress:
+  enabled: false
+
+livenessProbePath: /
+readinessProbePath: /
+
+livenessProbe:
+  initialDelaySeconds: 60
+  periodSeconds: 10
+  successThreshold: 1
+  timeoutSeconds: 1
+readinessProbe:
+  periodSeconds: 10
+  successThreshold: 1
+  timeoutSeconds: 1
+terminationGracePeriodSeconds: 10
+
+env:
+  TAILRIX_API_KEY:
+    secretName: tailrix-exp-dashboard 
+    secretKey: apikey 
+  AUTH_SECRET:
+    secretName: tailrix-exp-dashboard 
+    secretKey: athsecret
+  TAILRIX_API_URL: https://api.tailrix.com
+  AUTH_URL: https://tep.tailrix.com

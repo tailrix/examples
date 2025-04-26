@@ -7,10 +7,21 @@ import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 import InsightsRoundedIcon from '@mui/icons-material/InsightsRounded';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
+import { INSIGHTS_FEATURE } from '../utils/features';
+import { useTailrixSDK } from 'tailrix/client/tailrixprovider';
 
 export default function HighlightedCard() {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const sdk = useTailrixSDK();
+  const [hasInsightFeature, setHasInsightFeature] = React.useState(false)
+
+  React.useEffect(() => {
+    sdk.getFeature(INSIGHTS_FEATURE).
+      then(([val]) => setHasInsightFeature(val === 'true'))
+      .catch((err) => console.error('Error fetching feature:', err));
+  }, [sdk]);
+
 
   return (
     <Card sx={{ height: '100%' }} variant="outlined">
@@ -28,6 +39,7 @@ export default function HighlightedCard() {
           color="primary"
           endIcon={<ChevronRightRoundedIcon />}
           fullWidth={isSmallScreen}
+          disabled={!hasInsightFeature}
         >
           Get insights
         </Button>
