@@ -19,10 +19,10 @@ jobs:
         with:
           node-version: '21'
           cache: 'npm'
-          cache-dependency-path: ./examples/dashboard/package-lock.json
+          cache-dependency-path: ./dashboard/package-lock.json
 
       - name: Install dependencies
-        working-directory: ./examples/dashboard
+        working-directory: ./dashboard
         run: npm ci
 
       - name: Extract version from release tag
@@ -33,11 +33,11 @@ jobs:
           echo "Extracted version: $VERSION"
 
       - name: Run ESLint
-        working-directory: ./examples/dashboard
+        working-directory: ./dashboard
         run: npm run lint -- --max-warnings=0
 
       - name: Build project
-        working-directory: ./examples/dashboard
+        working-directory: ./dashboard
         run: npm run build
 
       - name: Log in to GHCR
