@@ -51,6 +51,6 @@ env:
     secretKey: apikey 
   AUTH_SECRET:
     secretName: tailrix-exp-dashboard 
-    secretKey: athsecret
+    secretKey: authsecret
   TAILRIX_API_URL: https://api.tailrix.com
   AUTH_URL: https://tep.tailrix.com
