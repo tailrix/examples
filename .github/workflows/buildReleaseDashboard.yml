@@ -28,7 +28,7 @@ jobs:
       - name: Extract version from release tag
         id: extract_version
         run: |
-          VERSION=$(echo "${GITHUB_REF##*/}" | cut -d '-' -f 2)
+          VERSION=$(echo "${GITHUB_REF##*/}" |  awk -F'-' '{print $NF}')
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "Extracted version: $VERSION"
 
