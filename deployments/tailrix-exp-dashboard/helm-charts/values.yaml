@@ -31,8 +31,8 @@ hpa:
 ingress:
   enabled: false
 
-livenessProbePath: /
-readinessProbePath: /
+livenessProbePath: /api/health
+readinessProbePath: /api/health
 
 livenessProbe:
   initialDelaySeconds: 60
