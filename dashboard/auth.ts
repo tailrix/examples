@@ -39,6 +39,13 @@ export const providerMap = providers.map((provider) => {
   return { id: provider.id, name: provider.name };
 });
 
+const isHealthCheck = (ua: string) => {
+  return (
+    ua.startsWith('kube-probe/') ||
+    ua.startsWith('googlehc/')
+  );
+}
+
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers,
   secret: process.env.AUTH_SECRET,
@@ -46,7 +53,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     signIn: '/auth/signin',
   },
   callbacks: {
-    authorized({ auth: session, request: { nextUrl } }) {
+    authorized({ auth: session, request: { nextUrl, headers } }) {
+      if (isHealthCheck(headers.get('user-agent')?.toLowerCase() ?? '')) {
+        return true;
+      }
+
       const isLoggedIn = !!session?.user;
       const isPublicPage = nextUrl.pathname.startsWith('/public');
 
