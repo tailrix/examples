@@ -31,14 +31,14 @@ hpa:
 ingress:
   enabled: false
 
-livenessProbePath: /api/health
-readinessProbePath: /api/health
+livenessProbePath: /
+readinessProbePath: /
 
 livenessProbe:
   initialDelaySeconds: 60
   periodSeconds: 10
   successThreshold: 1
-  timeoutSeconds: 1
+  timeoutSeconds: 3
 readinessProbe:
   initialDelaySeconds: 20
   periodSeconds: 10
