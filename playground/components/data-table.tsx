@@ -106,6 +106,7 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs"
 import { useTailrixSDK } from "tailrix/client/tailrixprovider"
+import { User, UserSelect } from "./user-dropdown"
 
 export const schema = z.object({
   id: z.number(),
@@ -229,8 +230,10 @@ function DraggableRow({ row }: { row: Row<z.infer<typeof schema>> }) {
 
 export function DataTable({
   data: initialData,
+  users: initialUsers
 }: {
-  data: z.infer<typeof schema>[]
+  data: z.infer<typeof schema>[],
+  users: User[]
 }) {
 
   const tailrix = useTailrixSDK()
@@ -299,6 +302,8 @@ export function DataTable({
     }
   }
 
+
+
   return (
     <Tabs
       defaultValue="features"
@@ -330,6 +335,7 @@ export function DataTable({
           </TabsTrigger>
         </TabsList>
         <div className="flex items-center gap-2">
+          <UserSelect users={initialUsers} onUserSelect={(user) => { }} />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm">

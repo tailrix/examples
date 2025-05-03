@@ -1,7 +1,8 @@
 import { DataTable, schema } from "./data-table"
 import { z } from "zod"
-import { apikey, fetchFeatures } from "@/lib/utils"
+import { fetchFeatures, fetchUsers } from "@/lib/utils"
 import { FeatureWithSource } from "tailrix"
+import { getApiKey } from "@/app/actions/apikey"
 
 interface FeatureTableProps {
     accountId: string
@@ -12,6 +13,7 @@ interface FeatureTableProps {
 const OverviewTable = async ({ accountId, orgId, isCustomerId }: FeatureTableProps) => {
     let featureData: FeatureWithSource[] = []
 
+    const apikey = await getApiKey();
     if (accountId !== "" || orgId != "") {
         featureData = await fetchFeatures(accountId, orgId, isCustomerId, apikey)
         if (!featureData) {
@@ -31,8 +33,21 @@ const OverviewTable = async ({ accountId, orgId, isCustomerId }: FeatureTablePro
         from: feature.source
     }))
 
+
+    const users = await fetchUsers(apikey)
+    if (!users) {
+        return <div>Error fetching users</div>
+    }
+
+    const userTableData = users.map((user) => ({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+    }))
+
     return (<DataTable
         data={featureTableData}
+        users={userTableData}
     >
     </DataTable>)
 }

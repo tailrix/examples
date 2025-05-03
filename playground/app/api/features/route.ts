@@ -1,5 +1,5 @@
-// app/api/feature/route.ts
-import { fetchFeatures, apikey } from '@/lib/utils';
+import { getApiKey } from '@/app/actions/apikey';
+import { fetchFeatures } from '@/lib/utils';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest) {
@@ -8,6 +8,8 @@ export async function GET(req: NextRequest) {
         const accountId = searchParams.get('accountId') || "";
         const orgId = searchParams.get('orgId') || "";
         const isCustomerId = searchParams.get('isCustomerId');
+        const apikey = await getApiKey();
+
         const features = fetchFeatures(accountId, orgId, isCustomerId === 'true', apikey)
         console.log('Fetched features:', features);
         return NextResponse.json(features);
