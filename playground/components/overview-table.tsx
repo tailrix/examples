@@ -3,7 +3,6 @@ import { z } from "zod"
 import { fetchFeatures, fetchUsers } from "@/lib/utils"
 import { FeatureWithSource } from "tailrix"
 import { getApiKey } from "@/app/actions/apikey"
-import { isErrored } from "stream"
 
 interface FeatureTableProps {
     accountId: string
