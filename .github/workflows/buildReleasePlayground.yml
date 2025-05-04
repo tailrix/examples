@@ -37,11 +37,6 @@ jobs:
         working-directory: ./playground
         run: npm run lint -- --max-warnings=0
 
-      - name: Build project
-        skip: true
-        working-directory: ./playground
-        run: npm run build
-
       - name: Log in to GHCR
         uses: docker/login-action@v3
         with:
