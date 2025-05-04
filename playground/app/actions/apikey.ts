@@ -29,7 +29,7 @@ export async function getApiKey(): Promise<string> {
     if (!enc) {
       throw new Error("No API key corrupted");
     }
-    return decrypt(enc || "");
+    return decrypt(enc);
   } catch {
     redirect("/login");
   }
