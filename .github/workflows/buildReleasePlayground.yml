@@ -1,6 +1,7 @@
 name: Build and Publish on Release of playgound
 
 on:
+  workflow_dispatch:
   release:
     types: [published]
 
