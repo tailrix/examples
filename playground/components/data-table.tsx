@@ -26,13 +26,9 @@ import {
   IconChevronRight,
   IconChevronsLeft,
   IconChevronsRight,
-  IconCircleCheckFilled,
-  IconDotsVertical,
   IconGripVertical,
   IconLayoutColumns,
-  IconLoader,
-  IconPlus,
-  IconTrendingUp,
+  IconTrendingUp
 } from "@tabler/icons-react"
 import {
   ColumnDef,
@@ -50,7 +46,6 @@ import {
   useReactTable,
 } from "@tanstack/react-table"
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts"
-import { toast } from "sonner"
 import { z } from "zod"
 
 import { useIsMobile } from "@/hooks/use-mobile"
@@ -62,7 +57,6 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-import { Checkbox } from "@/components/ui/checkbox"
 import {
   Drawer,
   DrawerClose,
@@ -77,8 +71,6 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
@@ -105,8 +97,8 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
-import { useTailrixSDK } from "tailrix/client/tailrixprovider"
 import { User, UserSelect } from "./user-dropdown"
+import { useSearchParams, useRouter } from "next/navigation";
 
 export const schema = z.object({
   id: z.number(),
@@ -235,13 +227,6 @@ export function DataTable({
   data: z.infer<typeof schema>[],
   users: User[]
 }) {
-
-  const tailrix = useTailrixSDK()
-
-  tailrix.setUserContext("", "", false)
-  //console.log(tailrix.getFeature("monthly-storage"))
-
-
   const [data, setData] = React.useState(() => initialData)
   const [rowSelection, setRowSelection] = React.useState({})
   const [columnVisibility, setColumnVisibility] =
@@ -302,7 +287,14 @@ export function DataTable({
     }
   }
 
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
+  const handleUserSelected = (userId: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("accountId", userId);
+    router.replace("?" + params.toString());
+  }
 
   return (
     <Tabs
@@ -335,7 +327,7 @@ export function DataTable({
           </TabsTrigger>
         </TabsList>
         <div className="flex items-center gap-2">
-          <UserSelect users={initialUsers} onUserSelect={(user) => { }} />
+          <UserSelect users={initialUsers} onUserSelect={(userId) => { handleUserSelected(userId) }} />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm">
