@@ -1,0 +1,52 @@
+replicaCount: 1
+
+name: tailrix-exp-playground 
+
+image:
+  repository: ghcr.io/tailrix/tailrix-exp-playground 
+  pullPolicy: IfNotPresent
+
+service:
+  name: tailrix-exp-playground
+  type: NodePort
+  externalPort: 8080
+  internalPort: 3000
+
+resources:
+  limits:
+    cpu: 200m
+    memory: 400Mi
+  requests:
+    cpu: 100m
+    memory: 200Mi
+
+hpa:
+  minReplicas: 1
+  maxReplicas: 2
+  targetCPU: 60
+  scaleDownLimit: 2
+  scaleDownPeriod: 180
+  scaleDownStabilization: 300
+
+ingress:
+  enabled: false
+
+livenessProbePath: /
+readinessProbePath: /
+
+livenessProbe:
+  initialDelaySeconds: 60
+  periodSeconds: 10
+  successThreshold: 1
+  timeoutSeconds: 3
+readinessProbe:
+  initialDelaySeconds: 20
+  periodSeconds: 10
+  successThreshold: 1
+  timeoutSeconds: 3
+terminationGracePeriodSeconds: 10
+
+env:
+  ENCRYPTION_KEY:
+    secretName: tailrix-exp-playground
+    secretKey: encryptionkey
