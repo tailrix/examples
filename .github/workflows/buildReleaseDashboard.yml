@@ -1,4 +1,4 @@
-name: Build and Publish on Release
+name: Build and Publish on Release of dashboard
 
 on:
   release:
