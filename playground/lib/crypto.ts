@@ -1,7 +1,8 @@
 import { randomBytes, createCipheriv, createDecipheriv } from "crypto";
 
 // 32‑byte base‑64‑encoded secret →   `openssl rand -base64 32`
-const ENC_KEY = Buffer.from(process.env.ENCRYPTION_KEY!, "base64");
+const DEFAULT_KEY_WHICH_IS_NOT_SECURE = "TbXn5qovwi89YJTLVbTyeI17ms5it32wiPnk5ppTZhk=";
+const ENC_KEY = Buffer.from(process.env.ENCRYPTION_KEY || DEFAULT_KEY_WHICH_IS_NOT_SECURE, "base64");
 const ALGO = "aes-256-gcm";
 const IV_LEN = 12;
 const TAG_LEN = 16;
