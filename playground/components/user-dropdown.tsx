@@ -17,16 +17,18 @@ export type User = {
 }
 
 interface UserSelectProps {
-    users: User[]
+    users: User[],
+    currentUserId: string,
     onUserSelect: (userId: string) => void
 }
 
 export function UserSelect({
     users,
+    currentUserId,
     onUserSelect,
 }: UserSelectProps) {
     return (
-        <Select>
+        <Select onValueChange={onUserSelect} defaultValue={currentUserId}>
             <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Select a user" />
             </SelectTrigger>
@@ -37,7 +39,6 @@ export function UserSelect({
                         <SelectItem
                             key={user.id}
                             value={user.id}
-                            onClick={() => onUserSelect(user.id)}
                         >
                             {user.name}
                         </SelectItem>

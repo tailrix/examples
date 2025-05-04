@@ -98,7 +98,7 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs"
 import { User, UserSelect } from "./user-dropdown"
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 
 export const schema = z.object({
   id: z.number(),
@@ -222,10 +222,12 @@ function DraggableRow({ row }: { row: Row<z.infer<typeof schema>> }) {
 
 export function DataTable({
   data: initialData,
-  users: initialUsers
+  users: initialUsers,
+  currentUserId
 }: {
   data: z.infer<typeof schema>[],
-  users: User[]
+  users: User[],
+  currentUserId: string
 }) {
   const [data, setData] = React.useState(() => initialData)
   const [rowSelection, setRowSelection] = React.useState({})
@@ -289,11 +291,12 @@ export function DataTable({
 
   const router = useRouter();
   const searchParams = useSearchParams();
+  const pathname = usePathname();
 
   const handleUserSelected = (userId: string) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("accountId", userId);
-    router.replace("?" + params.toString());
+    router.replace(`${pathname}?${params.toString()}`);
   }
 
   return (
@@ -327,7 +330,11 @@ export function DataTable({
           </TabsTrigger>
         </TabsList>
         <div className="flex items-center gap-2">
-          <UserSelect users={initialUsers} onUserSelect={(userId) => { handleUserSelected(userId) }} />
+          <UserSelect
+            users={initialUsers}
+            onUserSelect={(userId) => { handleUserSelected(userId) }}
+            currentUserId={currentUserId}
+          />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm">

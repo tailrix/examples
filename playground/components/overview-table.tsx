@@ -3,6 +3,7 @@ import { z } from "zod"
 import { fetchFeatures, fetchUsers } from "@/lib/utils"
 import { FeatureWithSource } from "tailrix"
 import { getApiKey } from "@/app/actions/apikey"
+import { isErrored } from "stream"
 
 interface FeatureTableProps {
     accountId: string
@@ -33,7 +34,6 @@ const OverviewTable = async ({ accountId, orgId, isCustomerId }: FeatureTablePro
         from: feature.source
     }))
 
-
     const users = await fetchUsers(apikey)
     if (!users) {
         return <div>Error fetching users</div>
@@ -46,8 +46,10 @@ const OverviewTable = async ({ accountId, orgId, isCustomerId }: FeatureTablePro
     }))
 
     return (<DataTable
+        key={accountId + orgId}
         data={featureTableData}
         users={userTableData}
+        currentUserId={accountId}
     >
     </DataTable>)
 }

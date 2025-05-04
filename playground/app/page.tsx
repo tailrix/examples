@@ -5,11 +5,15 @@ import { TailrixProvider } from "tailrix/client/tailrixprovider"
 
 import OverviewTable from "@/components/overview-table"
 
-export default function Page({
-  searchParams,
-}: {
-  searchParams: { accountId?: string; orgId?: string; isCustomerId?: string };
-}) {
+export const dynamic = "force-dynamic"
+export const revalidate = 0
+
+export default async function Page(
+  props: {
+    searchParams: Promise<{ accountId?: string; orgId?: string; isCustomerId?: string }>;
+  }
+) {
+  const searchParams = await props.searchParams;
   const accountId = searchParams.accountId ?? "";
   const orgId = searchParams.orgId ?? "";
   const isCustomerId = searchParams.isCustomerId === "true";
