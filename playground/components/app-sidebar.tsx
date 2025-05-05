@@ -29,24 +29,19 @@ import {
 
 const data = {
   user: {
-    name: "shadcn",
-    email: "m@example.com",
+    name: "tailrix",
+    email: "post@tailrix.com",
     avatar: "/avatars/shadcn.jpg",
   },
   navMain: [
     {
       title: "Overview",
-      url: "#",
+      url: "/",
       icon: IconDashboard,
     },
     {
-      title: "Orgnization Management",
-      url: "#",
-      icon: IconListDetails,
-    },
-    {
       title: "User Management",
-      url: "#",
+      url: "/user-management",
       icon: IconUsers,
     }
   ],
@@ -98,7 +93,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             >
               <a href="#">
                 <IconInnerShadowTop className="!size-5" />
-                <span className="text-base font-semibold">Acme Inc.</span>
+                <span className="text-base font-semibold">Tailrix Playground</span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>

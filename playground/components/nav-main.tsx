@@ -9,6 +9,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
+import { useRouter } from "next/navigation"
+import { usePathname, useSearchParams } from "next/navigation"
 
 export function NavMain({
   items,
@@ -19,13 +21,23 @@ export function NavMain({
     icon?: Icon
   }[]
 }) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const onClick = (url: string) => () => {
+    const params = new URLSearchParams(searchParams.toString());
+    const newUrl = new URL(url, window.location.origin)
+    newUrl.search = params.toString()
+    router.push(newUrl.toString());
+  }
+
   return (
     <SidebarGroup>
       <SidebarGroupContent className="flex flex-col gap-2">
         <SidebarMenu>
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton tooltip={item.title}>
+              <SidebarMenuButton tooltip={item.title} onClick={onClick(item.url)} >
                 {item.icon && <item.icon />}
                 <span>{item.title}</span>
               </SidebarMenuButton>
