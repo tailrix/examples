@@ -88,7 +88,7 @@ jobs:
           push: true
           tags: |
             ghcr.io/tailrix/tailrix-exp-playground:latest
-            ghcr.io/tailrix/tailrix-exp-playground:${{ env.VERSION }}
+            ghcr.io/tailrix/tailrix-exp-playground:${{ steps.bump.outputs.new_version }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
 
@@ -96,6 +96,11 @@ jobs:
         run: |
           rm -rf /tmp/.buildx-cache
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+
+      - name: Tag new version
+        run: |
+          git tag "${{ steps.bump.outputs.new_tag }}"
+          git push origin "${{ steps.bump.outputs.new_tag }}"
 
 
       - name: Configure Git
