@@ -19,3 +19,9 @@ export const fetchUsers = async (apikey: string): Promise<Array<Account>> => {
   return users.items
 }
 
+
+
+export const fetchOrganizations = async (apikey: string): Promise<Array<Account>> => {
+  const organizations = await ListAccounts(0, 100, "", apikey)
+  return organizations.items
+}

@@ -98,6 +98,16 @@ import {
     TabsTrigger,
 } from "@/components/ui/tabs"
 
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
+import { createUser } from "@/app/actions/users"
 
 export const schema = z.object({
     id: z.number(),
@@ -298,6 +308,50 @@ export function UserTable({
                     <TabsTrigger value="organizations">Organizations</TabsTrigger>
                 </TabsList>
                 <div className="flex items-center gap-2">
+                    <Dialog>
+                        <DialogTrigger asChild>
+                            <Button variant="outline" size="sm">Add a user</Button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[425px]">
+                            <form action={createUser}>
+                                <DialogHeader>
+                                    <DialogTitle>Add a user</DialogTitle>
+                                    <DialogDescription>
+                                        Add a user to the system. Click save when you are done.
+                                    </DialogDescription>
+                                </DialogHeader>
+                                <div className="grid gap-4 py-4">
+                                    <div className="grid grid-cols-4 items-center gap-4">
+                                        <Label htmlFor="name" className="text-right">Name</Label>
+                                        <Input
+                                            id="name"
+                                            defaultValue=""
+                                            className="col-span-3"
+                                        />
+                                    </div>
+                                    <div className="grid grid-cols-4 items-center gap-4">
+                                        <Label htmlFor="email" className="text-right">Email</Label>
+                                        <Input
+                                            id="email"
+                                            defaultValue=""
+                                            className="col-span-3"
+                                        />
+                                    </div>
+                                    <div className="grid grid-cols-4 items-center gap-4">
+                                        <Label htmlFor="customerId" className="text-right">CustomerID</Label>
+                                        <Input
+                                            id="customerId"
+                                            defaultValue=""
+                                            className="col-span-3"
+                                        />
+                                    </div>
+                                </div>
+                                <DialogFooter>
+                                    <Button type="submit">Save changes</Button>
+                                </DialogFooter>
+                            </form>
+                        </DialogContent>
+                    </Dialog>
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <Button variant="outline" size="sm">

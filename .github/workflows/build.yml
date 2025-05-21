@@ -2,8 +2,13 @@ name: Build and Publish on Release of playgound
 
 on:
   workflow_dispatch:
-  release:
-    types: [published]
+  push:
+    branches:
+      - main
+    paths:
+      - 'playground/**'
+      - 'deployments/tailrix-exp-playground/**'
+      - '.github/workflows/build.yml'
 
 jobs:
   build:
@@ -26,12 +31,30 @@ jobs:
         working-directory: ./playground
         run: npm ci
 
-      - name: Extract version from release tag
-        id: extract_version
+      - name: Determine next version
+        id: bump
         run: |
-          VERSION=$(echo "${GITHUB_REF##*/}" |  awk -F'-' '{print $NF}')
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-          echo "Extracted version: $VERSION"
+          PREFIX="tailrix-exp-playground-"
+
+          # get the latest tag matching the prefix
+          LATEST_TAG=$(git describe --tags --match "${PREFIX}*" --abbrev=0)
+          echo "Latest tag: $LATEST_TAG"
+
+          # strip prefix, split into MAJOR.MINOR.PATCH
+          VERSION=${LATEST_TAG#"$PREFIX"}
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
+
+          # bump minor, reset patch
+          NEXT_MINOR=$((MINOR + 1))
+          NEW_VERSION="${MAJOR}.${NEXT_MINOR}.0"
+          NEW_TAG="${PREFIX}${NEW_VERSION}"
+
+          echo "New version: $NEW_VERSION"
+          echo "New tag: $NEW_TAG"
+
+          # expose for later steps
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "new_tag=$NEW_TAG"         >> $GITHUB_OUTPUT
 
       - name: Run ESLint
         working-directory: ./playground
@@ -71,3 +94,35 @@ jobs:
         run: |
           rm -rf /tmp/.buildx-cache
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+
+
+      - name: Configure Git
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+      - name: Install Helm
+        uses: azure/setup-helm@v3
+        with:
+          version: "v3.6.3" # default is latest (stable)
+        id: install
+
+      - name: build the charts
+        run: |
+          export URLBASE=https://tailrix.github.io/helm-charts
+          cd deployments
+          pip3 install -r scripts/requirements.txt
+          python3 scripts/release_helmchart.py ./ $URLBASE --build-all
+        shell: bash
+
+      - name: Pushes to another repository
+        uses: fredrikluo/github-action-push-to-another-repository@main
+        env:
+          SSH_DEPLOY_KEY: ${{ secrets.BP_RELEASE_CHART }}
+        with:
+          source-directory: "deployments/.build"
+          destination-github-username: "tailrix"
+          destination-repository-name: "helm-charts"
+          user-email: bot@bp.com
+          target-branch: main
+          post-process-cmd: "helm repo index ."

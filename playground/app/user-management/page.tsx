@@ -7,11 +7,7 @@ import UserManagementTable from "@/components/user-management"
 export const dynamic = "force-dynamic"
 export const revalidate = 0
 
-export default async function Page(
-  props: {
-    searchParams: Promise<{ accountId?: string; orgId?: string; isCustomerId?: string }>;
-  }
-) {
+export default async function Page() {
   return (
     <SidebarProvider>
       <AppSidebar variant="inset" />

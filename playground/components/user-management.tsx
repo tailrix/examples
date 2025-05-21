@@ -20,7 +20,6 @@ const UserManagementTable = async () => {
 
     return (<UserTable
         key={apikey}
-
         users={userTableData}
     ></UserTable>)
 }
