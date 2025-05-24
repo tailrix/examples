@@ -325,9 +325,7 @@ export function DataTable({
         </div>
         <TabsList className="**:data-[slot=badge]:bg-muted-foreground/30 hidden **:data-[slot=badge]:size-5 **:data-[slot=badge]:rounded-full **:data-[slot=badge]:px-1 @4xl/main:flex">
           <TabsTrigger value="features">Features</TabsTrigger>
-          <TabsTrigger value="subscriptions">
-            Subscriptions <Badge variant="secondary">3</Badge>
-          </TabsTrigger>
+          <TabsTrigger value="subscriptions">Subscriptions</TabsTrigger>
         </TabsList>
         <div className="flex items-center gap-2">
           <UserSelect

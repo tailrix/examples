@@ -1,16 +1,16 @@
 import { fetchUsers } from "@/lib/utils"
 import { getApiKey } from "@/app/actions/apikey"
 import { z } from "zod";
-import { schema, UserTable } from "./user-table";
+import { userSchema } from "./user-tabcontent";
+import { UserAndOrgTable } from "./user-org-table";
 
 const UserManagementTable = async () => {
-
     const apikey = await getApiKey();
     const users = await fetchUsers(apikey)
     if (!users) {
         return <div>Error fetching users</div>
     }
-    const userTableData = users.map<z.infer<typeof schema>>((user, index) => ({
+    const userTableData = users.map<z.infer<typeof userSchema>>((user, index) => ({
         id: index,
         userId: user.id,
         customerId: user.customerId,
@@ -18,11 +18,11 @@ const UserManagementTable = async () => {
         email: user.email,
     }))
 
-    return (<UserTable
+    return (<UserAndOrgTable
         key={apikey}
         users={userTableData}
-    ></UserTable>)
+        orgs={[]}
+    ></UserAndOrgTable>)
 }
-
 
 export default UserManagementTable
