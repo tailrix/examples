@@ -32,7 +32,6 @@ import {
     IconChevronDown,
     IconLayoutColumns,
 } from "@tabler/icons-react"
-import { createUser } from "@/app/actions/users"
 import {
     SortableContext,
     useSortable,
@@ -60,17 +59,6 @@ import {
     DropdownMenuContent,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog"
 
 export interface DataTableProps<TData extends { id: UniqueIdentifier }> {
     data: TData[];
