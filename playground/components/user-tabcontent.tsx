@@ -5,7 +5,7 @@ import {
     IconTrendingUp
 } from "@tabler/icons-react"
 import {
-    ColumnDef as OrgColumnDef,
+    ColumnDef
 } from "@tanstack/react-table"
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts"
 import { z } from "zod"
@@ -44,6 +44,7 @@ import {
 } from "@/components/ui/tabs"
 
 import { DataTable } from "@/components/table"
+import { UserNewDialogue } from "@/components/user-new-dialogue"
 
 export const userSchema = z.object({
     id: z.number(),
@@ -53,14 +54,7 @@ export const userSchema = z.object({
     email: z.string()
 })
 
-export const orgSchema = z.object({
-    id: z.number(),
-    orgId: z.string(),
-    name: z.string(),
-    description: z.string()
-})
-
-const UserTableColumns: OrgColumnDef<z.infer<typeof userSchema>>[] = [
+const UserTableColumns: ColumnDef<z.infer<typeof userSchema>>[] = [
     {
         accessorKey: "name",
         header: "Name",
@@ -100,7 +94,7 @@ const UserTableColumns: OrgColumnDef<z.infer<typeof userSchema>>[] = [
         cell: ({ row }) => (
             <div className="w-32">
                 <Badge variant="outline" className="text-muted-foreground px-1.5">
-                    {row.original.customerId}
+                    {row.original.userId}
                 </Badge>
             </div>
         ),
@@ -123,6 +117,7 @@ export function UserTabContent({
                 data={userData}
                 columns={UserTableColumns}
                 enableRowReorder
+                addNewDialogue={<UserNewDialogue />}
             />
         </TabsContent>
     )

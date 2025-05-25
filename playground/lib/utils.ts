@@ -16,7 +16,6 @@ export const fetchFeatures = async (accountId: string, orgId: string, isCustomer
 
 export const fetchUsers = async (apikey: string): Promise<Array<Account>> => {
   const users = await ListAccounts(0, 100, "", apikey)
-  console.log("Fetched users:", users)
   return users.items
 }
 

@@ -79,6 +79,7 @@ export interface DataTableProps<TData extends { id: UniqueIdentifier }> {
     enableRowReorder?: boolean;
     getRowId?: (row: TData) => UniqueIdentifier;
     onReorder?: (rows: TData[]) => void;
+    addNewDialogue?: React.ReactNode
 }
 
 export function DataTable<TData extends { id: UniqueIdentifier }>(props: DataTableProps<TData>) {
@@ -89,6 +90,7 @@ export function DataTable<TData extends { id: UniqueIdentifier }>(props: DataTab
         enableRowReorder = false,
         getRowId = (row) => row.id as UniqueIdentifier,
         onReorder,
+        addNewDialogue
     } = props;
 
     const [data, setData] = React.useState<TData[]>(() => initialData);
@@ -204,50 +206,7 @@ export function DataTable<TData extends { id: UniqueIdentifier }>(props: DataTab
                             })}
                     </DropdownMenuContent>
                 </DropdownMenu>
-                <Dialog>
-                    <DialogTrigger asChild>
-                        <Button variant="outline" size="sm">Add a user</Button>
-                    </DialogTrigger>
-                    <DialogContent className="sm:max-w-[425px]">
-                        <form action={createUser}>
-                            <DialogHeader>
-                                <DialogTitle>Add a user</DialogTitle>
-                                <DialogDescription>
-                                    Add a user to the system. Click save when you are done.
-                                </DialogDescription>
-                            </DialogHeader>
-                            <div className="grid gap-4 py-4">
-                                <div className="grid grid-cols-4 items-center gap-4">
-                                    <Label htmlFor="name" className="text-right">Name</Label>
-                                    <Input
-                                        id="name"
-                                        defaultValue=""
-                                        className="col-span-3"
-                                    />
-                                </div>
-                                <div className="grid grid-cols-4 items-center gap-4">
-                                    <Label htmlFor="email" className="text-right">Email</Label>
-                                    <Input
-                                        id="email"
-                                        defaultValue=""
-                                        className="col-span-3"
-                                    />
-                                </div>
-                                <div className="grid grid-cols-4 items-center gap-4">
-                                    <Label htmlFor="customerId" className="text-right">CustomerID</Label>
-                                    <Input
-                                        id="customerId"
-                                        defaultValue=""
-                                        className="col-span-3"
-                                    />
-                                </div>
-                            </div>
-                            <DialogFooter>
-                                <Button type="submit">Save changes</Button>
-                            </DialogFooter>
-                        </form>
-                    </DialogContent>
-                </Dialog>
+                {addNewDialogue}
             </div>
             <div className="overflow-hidden rounded-lg border">
                 <DndContext

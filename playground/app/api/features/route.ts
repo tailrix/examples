@@ -13,7 +13,6 @@ export async function GET(req: NextRequest) {
         const apikey = await getApiKey();
 
         const features = fetchFeatures(accountId, orgId, isCustomerId === 'true', apikey)
-        console.log('Fetched features:', features);
         return NextResponse.json(features);
     } catch (err) {
         console.error('Error fetching features:', err);
