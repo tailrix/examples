@@ -2,7 +2,7 @@
 
 import { getApiKey } from "@/app/actions/apikey";
 import { fetchUsers as fetchUsersFromUtils } from '@/lib/utils';
-import { Account } from "tailrix";
+import { Account, AccountInfo, createAccount } from "tailrix";
 
 /**
  * Server action to fetch a list of users (accounts) from Tailrix
@@ -17,24 +17,49 @@ export async function fetchUsers(): Promise<Account[]> {
             return [];
         }
         
-        // Call the utility function
         const accounts: Account[] = await fetchUsersFromUtils(apikey);
-        
-        // The Account type from tailrix should have .id and .name.
-        // If any additional mapping or filtering (like checking for null id/name)
-        // was desired, it could be done here. For now, directly returning accounts.
-        // Example of previous filtering (if needed):
-        // return accounts.map(account => {
-        //     if (!account.id || !account.name) {
-        //         console.warn("Account found with missing id or name in action wrapper:", account);
-        //         return null; 
-        //     }
-        //     return account;
-        // }).filter(Boolean) as Account[];
         return accounts;
 
     } catch (error) {
         console.error("Error in fetchUsers server action:", error);
         return [];
     }
+}
+
+/**
+ * Server action to create a new user (account) in Tailrix.
+ * @param formData The form data containing user details (name, email, customerId).
+ * @throws Error if the user creation fails.
+ */
+export async function createUser(formData: FormData) {
+    const name = (formData.get("name") ?? "").toString().trim();
+    const email = (formData.get("email") ?? "").toString().trim();
+    const customerId = (formData.get("customerId") ?? "").toString().trim();
+
+    const apikey = await getApiKey();
+    if (!apikey) {
+        // It might be better to throw an error here if API key is essential for creation
+        console.error("API key not found for createUser action");
+        throw new Error("API key not available. Cannot create user.");
+    }
+
+    const accountInfo: AccountInfo = {
+        name,
+        email,
+        customerId,
+        description: "", // Default description as per original function
+        metaData: {       // Default metaData as per original function
+            address: "",
+            phone: "",
+            taxExempt: false,
+        },
+    };
+
+    const account: Account = await createAccount(accountInfo, apikey);
+    if (!account) {
+        throw new Error("Failed to create user via Tailrix SDK");
+    }
+    // console.log("User created successfully:", account); // Optional: for server-side logging
+    // Note: The function does not explicitly return the created account object.
+    // Depending on usage, returning 'account' might be beneficial.
 }
