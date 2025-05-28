@@ -1,9 +1,9 @@
 import { fetchUsers, fetchOrganizations } from "@/lib/utils"
 import { getApiKey } from "@/app/actions/apikey"
 import { z } from "zod";
-import { orgSchema } from "./org-tabcontent";
-import { UserAndOrgTable } from "./user-org-table";
-import { userSchema } from "./user-schema";
+import { UserAndOrgTable } from "@/components/user-org-table";
+import { userSchema } from "@/components/user-schema";
+import { orgSchema } from "@/components/org-schema";
 
 const UserManagementTable = async () => {
     const apikey = await getApiKey();
@@ -29,7 +29,7 @@ const UserManagementTable = async () => {
         id: index,
         orgId: org.id,
         name: org.name,
-        description: org.description || "",
+        description: org.description || ""
     }))
 
     return (<UserAndOrgTable

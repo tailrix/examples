@@ -54,10 +54,6 @@ export function OrgCellViewer({ item }: { item: z.infer<typeof orgSchema> }) {
                             <Label htmlFor="email">Description</Label>
                             <Input id="email" name="email" defaultValue={item.description} />
                         </div>
-                        <div className="flex flex-col gap-3">
-                            <Label htmlFor="target">Customer Id</Label>
-                            <Input id="target" defaultValue={item.customId} />
-                        </div>
                     </form>
                 </div>
                 <DrawerFooter>

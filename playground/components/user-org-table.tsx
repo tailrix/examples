@@ -18,8 +18,9 @@ import {
 } from "@/components/ui/tabs"
 
 import { UserTabContent } from "@/components/user-tabcontent"
-import { orgSchema, OrgTabContent } from "@/components/org-tabcontent"
+import { OrgTabContent } from "@/components/org-tabcontent"
 import { userSchema } from "./user-schema"
+import { orgSchema } from "@/components/org-schema"
 
 export function UserAndOrgTable({
     users: initialUsers,
