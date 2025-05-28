@@ -17,8 +17,9 @@ import {
     TabsTrigger,
 } from "@/components/ui/tabs"
 
-import { userSchema, UserTabContent } from "@/components/user-tabcontent"
+import { UserTabContent } from "@/components/user-tabcontent"
 import { orgSchema, OrgTabContent } from "@/components/org-tabcontent"
+import { userSchema } from "./user-schema"
 
 export function UserAndOrgTable({
     users: initialUsers,

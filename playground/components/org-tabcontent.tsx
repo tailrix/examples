@@ -11,12 +11,9 @@ import {
 } from "@/components/ui/tabs"
 
 import { DataTable } from "@/components/table"
-
-export const orgSchema = z.object({
-    id: z.number(),
-    name: z.string(),
-    description: z.string()
-})
+import { orgSchema } from "@/components/org-schema"
+import { OrgCellViewer } from "@/components/org-cellviewer"
+import { OrgNewDialogue } from "@/components/org-new-dialogue"
 
 const OrgTableColumns: OrgColumnDef<z.infer<typeof orgSchema>>[] = [
     {
@@ -25,7 +22,7 @@ const OrgTableColumns: OrgColumnDef<z.infer<typeof orgSchema>>[] = [
         cell: ({ row }) => {
             return (
                 <div className="w-64">
-                    {row.original.name}
+                    <OrgCellViewer item={row.original} />
                 </div >
             )
         },
@@ -59,6 +56,7 @@ export function OrgTabContent({
                 data={orgData}
                 columns={OrgTableColumns}
                 enableRowReorder
+                addNewDialogue={<OrgNewDialogue />}
             />
         </TabsContent>
     )
