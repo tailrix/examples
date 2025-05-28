@@ -43,6 +43,14 @@ export async function createUser(formData: FormData) {
         throw new Error("API key not available. Cannot create user.");
     }
 
+    // Validate required fields
+    if (!name) {
+        throw new Error("User name is required.");
+    }
+    if (!email) {
+        throw new Error("User email is required.");
+    }
+
     const accountInfo: AccountInfo = {
         name,
         email,

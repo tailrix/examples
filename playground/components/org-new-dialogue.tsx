@@ -63,14 +63,14 @@ export function OrgNewDialogue() {
     // match any user.id.
     React.useEffect(() => {
         if (selectedAccountId) {
-            const currentSelectionStillValid = usersForDropdown.some(user =>
+            const currentSelectionStillValid = usersForDropdown.some(user => 
                 isCustomerIdChecked ? user.customerId === selectedAccountId : user.id === selectedAccountId
             );
             if (!currentSelectionStillValid) {
                 setSelectedAccountId(undefined); // Clear selection if no longer valid
             }
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isCustomerIdChecked, usersForDropdown]); // usersForDropdown dependency is important here
 
     return (
@@ -86,16 +86,16 @@ export function OrgNewDialogue() {
                             Add an organization to the system. Click save when you are done.
                         </DialogDescription>
                     </DialogHeader>
-                    <div className="grid gap-4 py-4">
-                        <div className="grid grid-cols-4 items-center gap-4">
+                    <div className="grid grid-cols-2 gap-4">
+                        <div className="flex flex-col gap-3">
                             <Label htmlFor="accountId">Owner</Label>
-                            <Select name="accountId" onValueChange={setSelectedAccountId} value={selectedAccountId}>
+                            <Select name="accountId" onValueChange={setSelectedAccountId} value={selectedAccountId} required>
                                 <SelectTrigger>
                                     <SelectValue placeholder="Select a user" />
                                 </SelectTrigger>
                                 <SelectContent>
                                     {usersForDropdown.map((user) => (
-                                        <SelectItem
+                                        <SelectItem 
                                             key={user.id} // Key should be stable and unique, user.id is good
                                             value={isCustomerIdChecked && user.customerId ? user.customerId : user.id}
                                         >
@@ -106,23 +106,23 @@ export function OrgNewDialogue() {
                             </Select>
                         </div>
                         <div className="flex flex-col gap-3">
-                            <div className="grid grid-cols-4 items-center gap-4">
-                                <Label htmlFor="isCustomerId">Customer id</Label>
-                                <Checkbox
-                                    id="isCustomerId"
-                                    checked={isCustomerIdChecked}
-                                    onCheckedChange={(checkedState) => {
-                                        const newCheckedState = Boolean(checkedState);
-                                        setIsCustomerIdChecked(newCheckedState);
-                                        // When checkbox state changes, the selected value might become invalid.
-                                        // Clearing it ensures user has to re-select.
-                                        // The useEffect above will also help reconcile this.
-                                        setSelectedAccountId(undefined);
-                                    }}
-                                />
-                            </div>
+                            <Label htmlFor="isCustomerId">Is a customer id</Label>
+                            <Checkbox 
+                                id="isCustomerId" 
+                                checked={isCustomerIdChecked} 
+                                onCheckedChange={(checkedState) => {
+                                    const newCheckedState = Boolean(checkedState);
+                                    setIsCustomerIdChecked(newCheckedState);
+                                    // When checkbox state changes, the selected value might become invalid.
+                                    // Clearing it ensures user has to re-select.
+                                    // The useEffect above will also help reconcile this.
+                                    setSelectedAccountId(undefined); 
+                                }} 
+                            />
                         </div>
                     </div>
+                    {/* This hidden input ensures isCustomerId is always submitted for the form */}
+                    <input type="hidden" name="isCustomerId" value={String(isCustomerIdChecked)} />
                     <div className="grid gap-4 py-4">
                         <div className="grid grid-cols-4 items-center gap-4">
                             <Label htmlFor="name" className="text-right">Name</Label>
@@ -131,13 +131,24 @@ export function OrgNewDialogue() {
                                 name="name"
                                 defaultValue=""
                                 className="col-span-3"
+                                required
                             />
                         </div>
                         <div className="grid grid-cols-4 items-center gap-4">
-                            <Label htmlFor="description" className="text-right">Description</Label>
+                            <Label htmlFor="email" className="text-right">Email</Label>
                             <Input
                                 id="description"
                                 name="description"
+                                defaultValue=""
+                                className="col-span-3"
+                                required
+                            />
+                        </div>
+                        <div className="grid grid-cols-4 items-center gap-4">
+                            <Label htmlFor="customerId" className="text-right">CustomerID</Label>
+                            <Input
+                                id="customerId"
+                                name="customerId"
                                 defaultValue=""
                                 className="col-span-3"
                             />
@@ -148,5 +159,5 @@ export function OrgNewDialogue() {
                     </DialogFooter>
                 </form>
             </DialogContent>
-        </Dialog >)
+        </Dialog>)
 }
