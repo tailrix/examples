@@ -37,6 +37,7 @@ export function UserNewDialogue() {
                                 name="name"
                                 defaultValue=""
                                 className="col-span-3"
+                                required
                             />
                         </div>
                         <div className="grid grid-cols-4 items-center gap-4">
@@ -46,6 +47,7 @@ export function UserNewDialogue() {
                                 name="email"
                                 defaultValue=""
                                 className="col-span-3"
+                                required
                             />
                         </div>
                         <div className="grid grid-cols-4 items-center gap-4">
