@@ -68,6 +68,5 @@ export async function createUser(formData: FormData) {
         throw new Error("Failed to create user via Tailrix SDK");
     }
     // console.log("User created successfully:", account); // Optional: for server-side logging
-    // Note: The function does not explicitly return the created account object.
-    // Depending on usage, returning 'account' might be beneficial.
+    return account; // Explicitly return the created account object for downstream consumers.
 }
