@@ -89,7 +89,7 @@ export function OrgNewDialogue() {
                     <div className="grid gap-4 py-4">
                         <div className="grid grid-cols-4 items-center gap-4">
                             <Label htmlFor="accountId">Owner</Label>
-                            <Select name="accountId" onValueChange={setSelectedAccountId} value={selectedAccountId}>
+                            <Select name="accountId" onValueChange={setSelectedAccountId} value={selectedAccountId} required>
                                 <SelectTrigger>
                                     <SelectValue placeholder="Select a user" />
                                 </SelectTrigger>
@@ -105,24 +105,27 @@ export function OrgNewDialogue() {
                                 </SelectContent>
                             </Select>
                         </div>
-                        <div className="flex flex-col gap-3">
-                            <div className="grid grid-cols-4 items-center gap-4">
-                                <Label htmlFor="isCustomerId">Customer id</Label>
-                                <Checkbox
-                                    id="isCustomerId"
-                                    checked={isCustomerIdChecked}
-                                    onCheckedChange={(checkedState) => {
-                                        const newCheckedState = Boolean(checkedState);
-                                        setIsCustomerIdChecked(newCheckedState);
-                                        // When checkbox state changes, the selected value might become invalid.
-                                        // Clearing it ensures user has to re-select.
-                                        // The useEffect above will also help reconcile this.
-                                        setSelectedAccountId(undefined);
-                                    }}
-                                />
-                            </div>
+                    </div>
+                    <div className="grid gap-4 py-4">
+                        <div className="grid grid-cols-4 items-center gap-4">
+                            <Label htmlFor="isCustomerId">Customer id</Label>
+                            <Checkbox
+                                id="isCustomerId"
+                                checked={isCustomerIdChecked}
+                                onCheckedChange={(checkedState) => {
+                                    const newCheckedState = Boolean(checkedState);
+                                    setIsCustomerIdChecked(newCheckedState);
+                                    // When checkbox state changes, the selected value might become invalid.
+                                    // Clearing it ensures user has to re-select.
+                                    // The useEffect above will also help reconcile this.
+                                    setSelectedAccountId(undefined);
+                                }}
+                                required
+                            />
                         </div>
                     </div>
+                    {/* This hidden input ensures isCustomerId is always submitted for the form */}
+                    <input type="hidden" name="isCustomerId" value={String(isCustomerIdChecked)} />
                     <div className="grid gap-4 py-4">
                         <div className="grid grid-cols-4 items-center gap-4">
                             <Label htmlFor="name" className="text-right">Name</Label>
@@ -131,15 +134,17 @@ export function OrgNewDialogue() {
                                 name="name"
                                 defaultValue=""
                                 className="col-span-3"
+                                required
                             />
                         </div>
                         <div className="grid grid-cols-4 items-center gap-4">
-                            <Label htmlFor="description" className="text-right">Description</Label>
+                            <Label htmlFor="email" className="text-right">Email</Label>
                             <Input
                                 id="description"
                                 name="description"
                                 defaultValue=""
                                 className="col-span-3"
+                                required
                             />
                         </div>
                     </div>
@@ -148,5 +153,5 @@ export function OrgNewDialogue() {
                     </DialogFooter>
                 </form>
             </DialogContent>
-        </Dialog >)
+        </Dialog>)
 }

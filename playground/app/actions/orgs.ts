@@ -11,6 +11,22 @@ export async function createOrg(formData: FormData) {
     const customerId = (formData.get("customerId") ?? "").toString().trim();
     const apikey = await getApiKey();
 
+    if (!apikey) {
+        console.error("API key not found for createOrg action");
+        throw new Error("API key not available. Cannot create organization.");
+    }
+
+    // Validate required fields
+    if (!accountId) {
+        throw new Error("Owner (accountId) is required.");
+    }
+    if (!name) {
+        throw new Error("Organization name is required.");
+    }
+    if (!description) {
+        throw new Error("Organization email/description is required.");
+    }
+
     const organizationMetaData: OrganizationMetaData = {
         name,
         description,

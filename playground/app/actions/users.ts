@@ -16,7 +16,7 @@ export async function fetchUsers(): Promise<Account[]> {
             console.error("API key not found for fetchUsers action");
             return [];
         }
-        
+
         const accounts: Account[] = await fetchUsersFromUtils(apikey);
         return accounts;
 
@@ -41,6 +41,14 @@ export async function createUser(formData: FormData) {
         // It might be better to throw an error here if API key is essential for creation
         console.error("API key not found for createUser action");
         throw new Error("API key not available. Cannot create user.");
+    }
+
+    // Validate required fields
+    if (!name) {
+        throw new Error("User name is required.");
+    }
+    if (!email) {
+        throw new Error("User email is required.");
     }
 
     const accountInfo: AccountInfo = {
