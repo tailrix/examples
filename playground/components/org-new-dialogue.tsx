@@ -106,19 +106,21 @@ export function OrgNewDialogue() {
                             </Select>
                         </div>
                         <div className="flex flex-col gap-3">
-                            <Label htmlFor="isCustomerId">Is a customer id</Label>
-                            <Checkbox
-                                id="isCustomerId"
-                                checked={isCustomerIdChecked}
-                                onCheckedChange={(checkedState) => {
-                                    const newCheckedState = Boolean(checkedState);
-                                    setIsCustomerIdChecked(newCheckedState);
-                                    // When checkbox state changes, the selected value might become invalid.
-                                    // Clearing it ensures user has to re-select.
-                                    // The useEffect above will also help reconcile this.
-                                    setSelectedAccountId(undefined);
-                                }}
-                            />
+                            <div className="grid grid-cols-4 items-center gap-4">
+                                <Label htmlFor="isCustomerId">Customer id</Label>
+                                <Checkbox
+                                    id="isCustomerId"
+                                    checked={isCustomerIdChecked}
+                                    onCheckedChange={(checkedState) => {
+                                        const newCheckedState = Boolean(checkedState);
+                                        setIsCustomerIdChecked(newCheckedState);
+                                        // When checkbox state changes, the selected value might become invalid.
+                                        // Clearing it ensures user has to re-select.
+                                        // The useEffect above will also help reconcile this.
+                                        setSelectedAccountId(undefined);
+                                    }}
+                                />
+                            </div>
                         </div>
                     </div>
                     <div className="grid gap-4 py-4">
