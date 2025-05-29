@@ -2,7 +2,7 @@
 
 import { getApiKey } from "@/app/actions/apikey";
 import { fetchUsers as fetchUsersFromUtils } from '@/lib/utils';
-import { Account, AccountInfo, createAccount } from "tailrix";
+import { Account, AccountInfo, createAccount, deleteAccount } from "tailrix";
 
 /**
  * Server action to fetch a list of users (accounts) from Tailrix
@@ -73,4 +73,32 @@ export async function createUser(formData: FormData) {
     // console.log("User created successfully:", account); // Optional: for server-side logging
     // Note: The function does not explicitly return the created account object.
     // Depending on usage, returning 'account' might be beneficial.
+}
+
+/**
+ * Server action to delete a user (account) in Tailrix.
+ * @param userId The ID of the user to delete.
+ * @throws Error if the user deletion fails or API key is not found.
+ */
+export async function deleteUser(userId: string) {
+    if (!userId) {
+        throw new Error("User ID is required for deletion.");
+    }
+
+    const apikey = await getApiKey();
+    if (!apikey) {
+        console.error("API key not found for deleteUser action");
+        throw new Error("API key not available. Cannot delete user.");
+    }
+
+    try {
+        // Assuming deleteAccount returns a boolean or throws an error on failure.
+        // If it returns a specific object or status, this might need adjustment.
+        await deleteAccount(userId, apikey);
+        // console.log(`User ${userId} deleted successfully.`); // Optional: for server-side logging
+    } catch (error) {
+        console.error(`Error deleting user ${userId} via Tailrix SDK:`, error);
+        // Re-throw the error or throw a custom error
+        throw new Error(`Failed to delete user ${userId}.`);
+    }
 }

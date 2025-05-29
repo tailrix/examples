@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { z } from "zod"
+import { deleteUser } from "@/app/actions/users";
 
 import { useIsMobile } from "@/hooks/use-mobile"
 import { Button } from "@/components/ui/button"
@@ -23,11 +24,26 @@ import { Badge } from "@/components/ui/badge"
 
 export function UserCellViewer({ item }: { item: z.infer<typeof userSchema> }) {
     const isMobile = useIsMobile()
+    const [open, setOpen] = React.useState(false);
+
+    const handleDelete = async () => {
+        if (window.confirm("Are you sure you want to delete this user?")) {
+            try {
+                await deleteUser(item.userId);
+                // alert("User deleted successfully!"); // Optional: or use a toast notification
+                setOpen(false); // Close the drawer
+                // window.location.reload(); // Alternative: reload the page
+            } catch (error) {
+                console.error("Failed to delete user:", error);
+                alert("Failed to delete user. See console for details."); // Optional
+            }
+        }
+    };
 
     return (
-        <Drawer direction={isMobile ? "bottom" : "right"}>
+        <Drawer open={open} onOpenChange={setOpen} direction={isMobile ? "bottom" : "right"}>
             <DrawerTrigger asChild>
-                <Button variant="link" className="text-foreground w-fit px-0 text-left">
+                <Button variant="link" className="text-foreground w-fit px-0 text-left" onClick={() => setOpen(true)}>
                     {item.name}
                 </Button>
             </DrawerTrigger>
@@ -62,6 +78,7 @@ export function UserCellViewer({ item }: { item: z.infer<typeof userSchema> }) {
                 </div>
                 <DrawerFooter>
                     <Button>Submit</Button>
+                    <Button variant="destructive" onClick={handleDelete}>Delete</Button>
                     <DrawerClose asChild>
                         <Button variant="outline">Done</Button>
                     </DrawerClose>
