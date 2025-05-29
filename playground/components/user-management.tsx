@@ -5,7 +5,12 @@ import { UserAndOrgTable } from "@/components/user-org-table";
 import { userSchema } from "@/components/user-schema";
 import { orgSchema } from "@/components/org-schema";
 
-const UserManagementTable = async () => {
+
+interface UserManagementTableProps {
+    tab?: string;
+}
+
+const UserManagementTable = async ({ tab }: UserManagementTableProps) => {
     const apikey = await getApiKey();
     const users = await fetchUsers(apikey)
     if (!users) {
@@ -36,6 +41,7 @@ const UserManagementTable = async () => {
         key={apikey}
         users={userTableData}
         orgs={orgTableData}
+        tab={tab}
     ></UserAndOrgTable>)
 }
 

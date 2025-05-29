@@ -41,7 +41,6 @@ export async function createUser(formData: FormData) {
 
     const apikey = await getApiKey();
     if (!apikey) {
-        // It might be better to throw an error here if API key is essential for creation
         console.error("API key not found for createUser action");
         throw new Error("API key not available. Cannot create user.");
     }
@@ -70,9 +69,6 @@ export async function createUser(formData: FormData) {
     if (!account) {
         throw new Error("Failed to create user via Tailrix SDK");
     }
-    // console.log("User created successfully:", account); // Optional: for server-side logging
-    // Note: The function does not explicitly return the created account object.
-    // Depending on usage, returning 'account' might be beneficial.
 }
 
 /**
@@ -92,13 +88,9 @@ export async function deleteUser(userId: string) {
     }
 
     try {
-        // Assuming deleteAccount returns a boolean or throws an error on failure.
-        // If it returns a specific object or status, this might need adjustment.
-        await deleteAccount(userId, apikey);
-        // console.log(`User ${userId} deleted successfully.`); // Optional: for server-side logging
+        await deleteAccount([userId], false, apikey);
     } catch (error) {
         console.error(`Error deleting user ${userId} via Tailrix SDK:`, error);
-        // Re-throw the error or throw a custom error
         throw new Error(`Failed to delete user ${userId}.`);
     }
 }

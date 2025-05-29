@@ -21,21 +21,33 @@ import { UserTabContent } from "@/components/user-tabcontent"
 import { OrgTabContent } from "@/components/org-tabcontent"
 import { userSchema } from "./user-schema"
 import { orgSchema } from "@/components/org-schema"
+import { useSearchParams, useRouter } from "next/navigation";
 
 export function UserAndOrgTable({
     users: initialUsers,
-    orgs: initialOrgs
+    orgs: initialOrgs,
+    tab
 }: {
     users: z.infer<typeof userSchema>[],
     orgs: z.infer<typeof orgSchema>[]
+    tab?: string
 }) {
     const [userData] = React.useState(() => initialUsers)
     const [orgData] = React.useState(() => initialOrgs)
+    const searchParams = useSearchParams();
+    const router = useRouter();
+
+    function handleTabChange(value: string) {
+        const params = new URLSearchParams(Array.from(searchParams.entries()));
+        params.set("tab", value);
+        router.replace(`${window.location.pathname}?${params.toString()}`);
+    }
 
     return (
         <Tabs
             defaultValue="users"
             className="w-full flex-col justify-start gap-6"
+            onValueChange={handleTabChange}
         >
             <div className="flex items-center justify-between px-4 lg:px-6">
                 <Label htmlFor="view-selector" className="sr-only">
@@ -56,7 +68,8 @@ export function UserAndOrgTable({
                         </SelectContent>
                     </Select>
                 </div>
-                <TabsList className="**:data-[slot=badge]:bg-muted-foreground/30 hidden **:data-[slot=badge]:size-5 **:data-[slot=badge]:rounded-full **:data-[slot=badge]:px-1 @4xl/main:flex">
+                <TabsList defaultValue={tab}
+                    className="**:data-[slot=badge]:bg-muted-foreground/30 hidden **:data-[slot=badge]:size-5 **:data-[slot=badge]:rounded-full **:data-[slot=badge]:px-1 @4xl/main:flex">
                     <TabsTrigger value="users">Users</TabsTrigger>
                     <TabsTrigger value="organizations">Organizations</TabsTrigger>
                 </TabsList>
