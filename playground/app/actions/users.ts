@@ -35,6 +35,9 @@ export async function createUser(formData: FormData) {
     const name = (formData.get("name") ?? "").toString().trim();
     const email = (formData.get("email") ?? "").toString().trim();
     const customerId = (formData.get("customerId") ?? "").toString().trim();
+    const address = (formData.get("address") ?? "").toString().trim();
+    const phone = (formData.get("phone") ?? "").toString().trim();
+    const taxExempt = formData.get("taxExempt") === "on";
 
     const apikey = await getApiKey();
     if (!apikey) {
@@ -56,10 +59,10 @@ export async function createUser(formData: FormData) {
         email,
         customerId,
         description: "", // Default description as per original function
-        metaData: {       // Default metaData as per original function
-            address: "",
-            phone: "",
-            taxExempt: false,
+        metaData: {
+            address: address,
+            phone: phone,
+            taxExempt: taxExempt,
         },
     };
 
