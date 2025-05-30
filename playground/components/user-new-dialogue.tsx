@@ -2,6 +2,7 @@
 import React from "react";
 import { createUser } from "@/app/actions/users"
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import {
@@ -58,6 +59,32 @@ export function UserNewDialogue() {
                                 defaultValue=""
                                 className="col-span-3"
                             />
+                        </div>
+                        <div className="grid grid-cols-4 items-center gap-4">
+                            <Label htmlFor="address" className="text-right">Address</Label>
+                            <Input
+                                id="address"
+                                name="address"
+                                defaultValue=""
+                                className="col-span-3"
+                            />
+                        </div>
+                        <div className="grid grid-cols-4 items-center gap-4">
+                            <Label htmlFor="phone" className="text-right">Phone</Label>
+                            <Input
+                                id="phone"
+                                name="phone"
+                                defaultValue=""
+                                className="col-span-3"
+                            />
+                        </div>
+                        <div className="grid grid-cols-4 items-center gap-4">
+                            {/* Empty div for spacing, as label is on the right for checkboxes */}
+                            <div></div>
+                            <div className="col-span-3 flex items-center gap-2">
+                                <Checkbox id="taxExempt" name="taxExempt" />
+                                <Label htmlFor="taxExempt" className="text-left font-normal">Tax Exempt?</Label>
+                            </div>
                         </div>
                     </div>
                     <DialogFooter>

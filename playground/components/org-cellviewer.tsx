@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { z } from "zod"
+import { deleteOrg } from "@/app/actions/orgs";
 
 import { useIsMobile } from "@/hooks/use-mobile"
 import { Button } from "@/components/ui/button"
@@ -23,11 +24,25 @@ import { orgSchema } from "@/components/org-schema"
 
 export function OrgCellViewer({ item }: { item: z.infer<typeof orgSchema> }) {
     const isMobile = useIsMobile()
+    const [open, setOpen] = React.useState(false);
+
+    const handleDelete = async () => {
+        if (window.confirm("Are you sure you want to delete this organization?")) {
+            try {
+                await deleteOrg(item.orgId);
+                // alert("Organization deleted successfully!"); // Optional
+                setOpen(false); // Close the drawer
+            } catch (error) {
+                console.error("Failed to delete organization:", error);
+                alert("Failed to delete organization. See console for details."); // Optional
+            }
+        }
+    };
 
     return (
-        <Drawer direction={isMobile ? "bottom" : "right"}>
+        <Drawer open={open} onOpenChange={setOpen} direction={isMobile ? "bottom" : "right"}>
             <DrawerTrigger asChild>
-                <Button variant="link" className="text-foreground w-fit px-0 text-left">
+                <Button variant="link" className="text-foreground w-fit px-0 text-left" onClick={() => setOpen(true)}>
                     {item.name}
                 </Button>
             </DrawerTrigger>
@@ -58,6 +73,7 @@ export function OrgCellViewer({ item }: { item: z.infer<typeof orgSchema> }) {
                 </div>
                 <DrawerFooter>
                     <Button>Submit</Button>
+                    <Button variant="destructive" onClick={handleDelete}>Delete</Button>
                     <DrawerClose asChild>
                         <Button variant="outline">Done</Button>
                     </DrawerClose>
