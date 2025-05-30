@@ -92,9 +92,8 @@ export async function deleteUser(userId: string) {
     }
 
     try {
-        // Assuming deleteAccount returns a boolean or throws an error on failure.
-        // If it returns a specific object or status, this might need adjustment.
-        await deleteAccount(userId, apikey);
+        // Corrected call to deleteAccount as per SDK signature: deleteAccount(accountIds: string[], customerId: boolean, apikey: string)
+        await deleteAccount([userId], false, apikey);
         // console.log(`User ${userId} deleted successfully.`); // Optional: for server-side logging
     } catch (error) {
         console.error(`Error deleting user ${userId} via Tailrix SDK:`, error);
