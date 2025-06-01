@@ -20,11 +20,14 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { userSchema } from "./user-schema"
 import { Badge } from "@/components/ui/badge"
+import { useRouter } from "next/navigation";
 
 
 export function UserCellViewer({ item }: { item: z.infer<typeof userSchema> }) {
     const isMobile = useIsMobile()
     const [open, setOpen] = React.useState(false);
+
+    const router = useRouter();
 
     const handleDelete = async () => {
         if (window.confirm("Are you sure you want to delete this user?")) {
@@ -33,6 +36,7 @@ export function UserCellViewer({ item }: { item: z.infer<typeof userSchema> }) {
                 // alert("User deleted successfully!"); // Optional: or use a toast notification
                 setOpen(false); // Close the drawer
                 // window.location.reload(); // Alternative: reload the page
+                router.refresh();
             } catch (error) {
                 console.error("Failed to delete user:", error);
                 alert("Failed to delete user. See console for details."); // Optional
@@ -77,7 +81,7 @@ export function UserCellViewer({ item }: { item: z.infer<typeof userSchema> }) {
                     </form>
                 </div>
                 <DrawerFooter>
-                    <Button>Submit</Button>
+                    <Button onClick={()=>router.refresh()} >Submit</Button>
                     <Button variant="destructive" onClick={handleDelete}>Delete</Button>
                     <DrawerClose asChild>
                         <Button variant="outline">Done</Button>

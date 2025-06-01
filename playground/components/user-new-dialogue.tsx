@@ -1,5 +1,5 @@
 "use client"
-import React from "react";
+import React, { useState } from "react";
 import { createUser } from "@/app/actions/users"
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -14,16 +14,35 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
+import { useRouter } from "next/navigation";
 
 
 export function UserNewDialogue() {
+    const router = useRouter();
+
+    const [open, setOpen] = useState(false)
+    const [isPending, startTransition] = React.useTransition()
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        const form = e.currentTarget
+        const formData = new FormData(form)
+
+        startTransition(async () => {
+        await createUser(formData)
+        setOpen(false)
+        router.refresh()
+        })
+    }
+
+
     return (
-        <Dialog>
+         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 <Button variant="outline" size="sm">Add a user</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
-                <form action={createUser}>
+                <form onSubmit={handleSubmit} className="grid gap-4">
                     <DialogHeader>
                         <DialogTitle>Add a user</DialogTitle>
                         <DialogDescription>
@@ -88,7 +107,7 @@ export function UserNewDialogue() {
                         </div>
                     </div>
                     <DialogFooter>
-                        <Button type="submit">Save changes</Button>
+                        <Button type="submit" disabled={isPending}>{isPending ? "Saving..." : "Save changes"}</Button>
                     </DialogFooter>
                 </form>
             </DialogContent>

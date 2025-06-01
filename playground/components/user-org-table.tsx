@@ -24,16 +24,14 @@ import { orgSchema } from "@/components/org-schema"
 import { useSearchParams, useRouter } from "next/navigation";
 
 export function UserAndOrgTable({
-    users: initialUsers,
-    orgs: initialOrgs,
+    users,
+    orgs,
     tab
 }: {
     users: z.infer<typeof userSchema>[],
     orgs: z.infer<typeof orgSchema>[]
     tab?: string
 }) {
-    const [userData] = React.useState(() => initialUsers)
-    const [orgData] = React.useState(() => initialOrgs)
     const searchParams = useSearchParams();
     const router = useRouter();
 
@@ -74,8 +72,8 @@ export function UserAndOrgTable({
                     <TabsTrigger value="organizations">Organizations</TabsTrigger>
                 </TabsList>
             </div>
-            <UserTabContent users={userData} />
-            <OrgTabContent orgs={orgData} />
+            <UserTabContent users={users} />
+            <OrgTabContent orgs={orgs} />
         </Tabs>
     )
 }

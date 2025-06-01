@@ -5,6 +5,8 @@ import { UserAndOrgTable } from "@/components/user-org-table";
 import { userSchema } from "@/components/user-schema";
 import { orgSchema } from "@/components/org-schema";
 
+export const dynamic = "force-dynamic"
+export const revalidate = 0
 
 interface UserManagementTableProps {
     tab?: string;
@@ -13,6 +15,7 @@ interface UserManagementTableProps {
 const UserManagementTable = async ({ tab }: UserManagementTableProps) => {
     const apikey = await getApiKey();
     const users = await fetchUsers(apikey)
+    console.log("Fetching users and organizations with API key");
     if (!users) {
         return <div>Error fetching users</div>
     }
@@ -38,7 +41,6 @@ const UserManagementTable = async ({ tab }: UserManagementTableProps) => {
     }))
 
     return (<UserAndOrgTable
-        key={apikey}
         users={userTableData}
         orgs={orgTableData}
         tab={tab}

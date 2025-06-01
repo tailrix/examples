@@ -158,6 +158,12 @@ export function DataTable<TData extends { id: UniqueIdentifier }>(props: DataTab
         getFacetedUniqueValues: getFacetedUniqueValues(),
     });
 
+
+    React.useEffect(() => {
+        setData(initialData);
+    }, [initialData]);
+
+
     return (
         <div className="space-y-2">
             <div className="flex items-center gap-2">

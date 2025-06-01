@@ -64,19 +64,17 @@ const UserTableColumns: ColumnDef<z.infer<typeof userSchema>>[] = [
 ]
 
 export function UserTabContent({
-    users: initialUsers,
+    users
 }: {
     users: z.infer<typeof userSchema>[]
 }) {
-    const [userData] = React.useState(() => initialUsers)
-
     return (
         <TabsContent
             value="users"
             className="relative flex flex-col gap-4 overflow-auto px-4 lg:px-6"
         >
             <DataTable
-                data={userData}
+                data={users}
                 columns={UserTableColumns}
                 enableRowReorder
                 addNewDialogue={<UserNewDialogue />}
