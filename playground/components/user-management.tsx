@@ -31,6 +31,9 @@ const UserManagementTable = async ({ tab }: UserManagementTableProps) => {
         customerId: user.customerId,
         name: user.name,
         email: user.email,
+        phone: user.metaData.phone || "",
+        address: user.metaData.address || "",
+        taxExempt: user.metaData.taxExempt || false
     }))
 
     const orgTableData = orgs.map<z.infer<typeof orgSchema>>((org, index) => ({

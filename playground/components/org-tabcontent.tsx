@@ -41,19 +41,17 @@ const OrgTableColumns: OrgColumnDef<z.infer<typeof orgSchema>>[] = [
 ]
 
 export function OrgTabContent({
-    orgs: initialOrgs
+    orgs
 }: {
     orgs: z.infer<typeof orgSchema>[]
 }) {
-    const [orgData] = React.useState(() => initialOrgs)
-
     return (
         <TabsContent
             value="organizations"
             className="flex flex-col px-4 lg:px-6"
         >
             <DataTable
-                data={orgData}
+                data={orgs}
                 columns={OrgTableColumns}
                 enableRowReorder
                 addNewDialogue={<OrgNewDialogue />}

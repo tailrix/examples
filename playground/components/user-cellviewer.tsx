@@ -21,6 +21,7 @@ import { Label } from "@/components/ui/label"
 import { userSchema } from "./user-schema"
 import { Badge } from "@/components/ui/badge"
 import { useRouter } from "next/navigation";
+import { Checkbox } from "@/components/ui/checkbox";
 
 
 export function UserCellViewer({ item }: { item: z.infer<typeof userSchema> }) {
@@ -68,23 +69,37 @@ export function UserCellViewer({ item }: { item: z.infer<typeof userSchema> }) {
                         </div>
                         <div className="flex flex-col gap-3">
                             <Label htmlFor="header">Name</Label>
-                            <Input id="name" name="name" defaultValue={item.name} />
+                            <Input id="header" name="name" defaultValue={item.name} />
                         </div>
                         <div className="flex flex-col gap-3">
                             <Label htmlFor="email">Email</Label>
                             <Input id="email" name="email" defaultValue={item.email} />
                         </div>
                         <div className="flex flex-col gap-3">
-                            <Label htmlFor="target">Customer Id</Label>
-                            <Input id="target" defaultValue={item.customerId} />
+                            <Label htmlFor="customerId">Customer Id</Label>
+                            <Input id="customerId" name="customerId" defaultValue={item.customerId} />
+                        </div>
+                        <div className="flex flex-col gap-3">
+                            <Label htmlFor="phone">Phone</Label>
+                            <Input id="phone" name="phone" defaultValue={item.phone} />
+                        </div>
+                        <div className="flex flex-col gap-3">
+                            <Label htmlFor="address">Address</Label>
+                            <Input id="address" name="address" defaultValue={item.address} />
+                        </div>
+                        <div className="flex flex-col gap-3">
+                            <div className="flex items-center gap-2">
+                                <Label htmlFor="taxExempt">Tax exempt</Label>
+                                <Checkbox id="taxExempt" name="taxExempt" defaultChecked={item.taxExempt} />
+                            </div>
                         </div>
                     </form>
                 </div>
                 <DrawerFooter>
-                    <Button onClick={()=>router.refresh()} >Submit</Button>
+                    <Button onClick={() => router.refresh()} >Submit</Button>
                     <Button variant="destructive" onClick={handleDelete}>Delete</Button>
                     <DrawerClose asChild>
-                        <Button variant="outline">Done</Button>
+                        <Button variant="outline">Close</Button>
                     </DrawerClose>
                 </DrawerFooter>
             </DrawerContent>
