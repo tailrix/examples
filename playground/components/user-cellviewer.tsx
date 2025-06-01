@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { z } from "zod"
-import { deleteUser } from "@/app/actions/users";
+import { deleteUser, updateUser } from "@/app/actions/users";
 
 import { useIsMobile } from "@/hooks/use-mobile"
 import { Button } from "@/components/ui/button"
@@ -27,8 +27,38 @@ import { Checkbox } from "@/components/ui/checkbox";
 export function UserCellViewer({ item }: { item: z.infer<typeof userSchema> }) {
     const isMobile = useIsMobile()
     const [open, setOpen] = React.useState(false);
-
     const router = useRouter();
+    const formRef = React.useRef<HTMLFormElement>(null)
+
+    const handleUpdate = async () => {
+        if (!formRef.current) return
+        const formData = new FormData(formRef.current)
+        const validation = userSchema.safeParse({
+            id: item.id,
+            userId: item.userId,
+            name: formData.get("name")?.toString().trim() || "",
+            email: (formData.get("email") ?? "").toString().trim(),
+            customerId: (formData.get("customerId") ?? "").toString().trim(),
+            phone: (formData.get("phone") ?? "").toString().trim(),
+            address: (formData.get("address") ?? "").toString().trim(),
+            taxExempt: formData.get("taxExempt") === "on" ? true : false,
+        });
+
+        if (!validation.success) {
+            console.error("Validation failed:", validation.error);
+            alert("Validation failed. Please check the input fields.");
+            return;
+        }
+
+        try {
+            await updateUser(formData);
+            setOpen(false);
+            router.refresh();
+        } catch (error) {
+            console.error("Failed to update user:", error);
+            alert("Failed to update user. See console for details."); // Optional
+        }
+    };
 
     const handleDelete = async () => {
         if (window.confirm("Are you sure you want to delete this user?")) {
@@ -60,16 +90,17 @@ export function UserCellViewer({ item }: { item: z.infer<typeof userSchema> }) {
                     </DrawerDescription>
                 </DrawerHeader>
                 <div className="flex flex-col gap-4 overflow-y-auto px-4 text-sm">
-                    <form className="flex flex-col gap-4">
+                    <form className="flex flex-col gap-4" ref={formRef}>
                         <div className="flex flex-col gap-3">
                             <Label htmlFor="header">Id</Label>
                             <Badge variant="outline" className="text-muted-foreground px-1.5">
                                 {item.userId}
                             </Badge>
+                            <input type="hidden" name="userId" value={item.userId} />
                         </div>
                         <div className="flex flex-col gap-3">
                             <Label htmlFor="header">Name</Label>
-                            <Input id="header" name="name" defaultValue={item.name} />
+                            <Input id="header" name="name" defaultValue={item.name} required />
                         </div>
                         <div className="flex flex-col gap-3">
                             <Label htmlFor="email">Email</Label>
@@ -96,7 +127,7 @@ export function UserCellViewer({ item }: { item: z.infer<typeof userSchema> }) {
                     </form>
                 </div>
                 <DrawerFooter>
-                    <Button onClick={() => router.refresh()} >Submit</Button>
+                    <Button onClick={handleUpdate} >Submit</Button>
                     <Button variant="destructive" onClick={handleDelete}>Delete</Button>
                     <DrawerClose asChild>
                         <Button variant="outline">Close</Button>

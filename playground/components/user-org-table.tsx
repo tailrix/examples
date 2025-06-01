@@ -43,7 +43,7 @@ export function UserAndOrgTable({
 
     return (
         <Tabs
-            defaultValue="users"
+            defaultValue={tab}
             className="w-full flex-col justify-start gap-6"
             onValueChange={handleTabChange}
         >
@@ -66,7 +66,7 @@ export function UserAndOrgTable({
                         </SelectContent>
                     </Select>
                 </div>
-                <TabsList defaultValue={tab}
+                <TabsList
                     className="**:data-[slot=badge]:bg-muted-foreground/30 hidden **:data-[slot=badge]:size-5 **:data-[slot=badge]:rounded-full **:data-[slot=badge]:px-1 @4xl/main:flex">
                     <TabsTrigger value="users">Users</TabsTrigger>
                     <TabsTrigger value="organizations">Organizations</TabsTrigger>

@@ -15,7 +15,6 @@ interface UserManagementTableProps {
 const UserManagementTable = async ({ tab }: UserManagementTableProps) => {
     const apikey = await getApiKey();
     const users = await fetchUsers(apikey)
-    console.log("Fetching users and organizations with API key");
     if (!users) {
         return <div>Error fetching users</div>
     }
