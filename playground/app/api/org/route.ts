@@ -10,15 +10,7 @@ export async function GET(req: NextRequest) {
         const orgId = searchParams.get('orgId') || "";
         const isCustomerId = searchParams.get('isCustomerId');
         const apikey = await getApiKey();
-
-        console.log("Fetching organization with params:", {
-            orgId,
-            isCustomerId,
-            apikey
-        });
-
         const org = await fetchOrganization(orgId, isCustomerId === 'true', apikey);
-        console.log("Fetched organization:", org);
         return NextResponse.json(org);
     } catch (err) {
         console.error('Error fetching org:', err);

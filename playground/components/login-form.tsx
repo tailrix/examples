@@ -45,8 +45,6 @@ export function LoginForm({
                                 <Label htmlFor="apikey">API Key</Label>
                                 <Input id="apikey" name="apikey" type="password" required />
                             </div>
-
-                            {/* uses the inner SubmitButton component */}
                             <SubmitButton />
                         </div>
 

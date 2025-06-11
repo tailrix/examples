@@ -99,6 +99,7 @@ import {
 } from "@/components/ui/tabs"
 import { User, UserSelect } from "./user-dropdown"
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import { OrgSelect } from "@/components/org-dropdown"
 
 export const schema = z.object({
   id: z.number(),
@@ -332,6 +333,11 @@ export function DataTable({
             users={initialUsers}
             onUserSelect={(userId) => { handleUserSelected(userId) }}
             currentUserId={currentUserId}
+          />
+          <OrgSelect
+            orgs={[]}
+            currentOrgId=""
+            onOrgSelect={() => { }}
           />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useRouter } from "next/navigation"
 import {
     Select,
     SelectContent,
@@ -35,6 +36,7 @@ export function OrgNewDialogue() {
     const [isCustomerIdChecked, setIsCustomerIdChecked] = React.useState(false);
     const [users, setUsers] = React.useState<UserDisplay[]>([]); // Use UserDisplay type
     const [selectedAccountId, setSelectedAccountId] = React.useState<string | undefined>(undefined);
+    const [open, setOpen] = React.useState(false)
 
     // Fetch users on component mount
     React.useEffect(() => {
@@ -73,13 +75,30 @@ export function OrgNewDialogue() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isCustomerIdChecked, usersForDropdown]); // usersForDropdown dependency is important here
 
+
+    const router = useRouter()
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        const formData = new FormData(e.currentTarget)
+
+        try {
+            await createOrg(formData)   // server action
+            router.refresh()            // ⬅️  refetch data for this route
+            setOpen(false)              // close dialog
+        } catch (err) {
+            console.error(err)
+            alert("Failed to create organization")   // keep dialog open for retry
+        }
+    }
+
+
     return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 <Button variant="outline" size="sm">Add an organization</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
-                <form action={createOrg}>
+                <form onSubmit={handleSubmit}>
                     <DialogHeader>
                         <DialogTitle>Add an organization</DialogTitle>
                         <DialogDescription>
@@ -120,7 +139,6 @@ export function OrgNewDialogue() {
                                     // The useEffect above will also help reconcile this.
                                     setSelectedAccountId(undefined);
                                 }}
-                                required
                             />
                         </div>
                     </div>

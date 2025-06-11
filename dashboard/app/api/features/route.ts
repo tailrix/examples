@@ -15,7 +15,6 @@ export async function GET(req: NextRequest) {
             isCustomerId === 'true'
         )
 
-        console.log('Fetched features:', features);
         return NextResponse.json(features);
     } catch (err) {
         console.error('Error fetching features:', err);

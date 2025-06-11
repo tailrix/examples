@@ -1,6 +1,14 @@
 'use server'
 
-import { createOrganization, Organization, OrganizationMetaData, deleteOrganization, updateOrganization } from "tailrix"
+import {
+    createOrganization,
+    Organization,
+    OrganizationMetaData,
+    deleteOrganization,
+    updateOrganization,
+    addMembersToOrganization,
+    removeMembersFromOrganization
+} from "tailrix"
 import { getApiKey } from "@/app/actions/apikey";
 
 export async function createOrg(formData: FormData) {
@@ -97,5 +105,43 @@ export async function updateOrg(formData: FormData) {
     } catch (error) {
         console.error(`Error updating organization ${orgId} via Tailrix SDK:`, error);
         throw new Error(`Failed to update organization ${orgId}.`);
+    }
+}
+
+export async function addMemberToOrg(orgId: string, userId: string) {
+    if (!orgId || !userId) {
+        throw new Error("Organization ID and User ID are required to add a member.");
+    }
+
+    const apikey = await getApiKey();
+    if (!apikey) {
+        console.error("API key not found for addMemberToOrg action");
+        throw new Error("API key not available. Cannot add member to organization.");
+    }
+
+    try {
+        await addMembersToOrganization(orgId, [userId], false, apikey);
+    } catch (error) {
+        console.error(`Error adding user ${userId} to organization ${orgId} via Tailrix SDK:`, error);
+        throw new Error(`Failed to add user ${userId} to organization ${orgId}.`);
+    }
+}
+
+export async function removeMemberFromOrg(orgId: string, userId: string) {
+    if (!orgId || !userId) {
+        throw new Error("Organization ID and User ID are required to remove a member.");
+    }
+
+    const apikey = await getApiKey();
+    if (!apikey) {
+        console.error("API key not found for removeMemberFromOrg action");
+        throw new Error("API key not available. Cannot remove member from organization.");
+    }
+
+    try {
+        await removeMembersFromOrganization(orgId, [userId], false, apikey);
+    } catch (error) {
+        console.error(`Error removing user ${userId} from organization ${orgId} via Tailrix SDK:`, error);
+        throw new Error(`Failed to remove user ${userId} from organization ${orgId}.`);
     }
 }
