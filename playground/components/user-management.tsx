@@ -24,6 +24,8 @@ const UserManagementTable = async ({ tab }: UserManagementTableProps) => {
         return <div>Error fetching organizations</div>
     }
 
+    console.log("Fetched orgs:", orgs)
+
     const userTableData = users.map<z.infer<typeof userSchema>>((user, index) => ({
         id: index,
         userId: user.id,

@@ -1,5 +1,5 @@
 import { clsx, type ClassValue } from "clsx"
-import { Account, FeatureWithSource, getFeatures, ListAccounts, listOrganizations, Organization } from "tailrix";
+import { Account, FeatureWithSource, getFeatures, listAccounts, listOrganizations, getOrganization, Organization } from "tailrix";
 import { twMerge } from "tailwind-merge"
 
 export function cn(...inputs: ClassValue[]) {
@@ -15,14 +15,16 @@ export const fetchFeatures = async (accountId: string, orgId: string, isCustomer
 }
 
 export const fetchUsers = async (apikey: string): Promise<Array<Account>> => {
-  const users = await ListAccounts(0, 100, "", apikey)
+  const users = await listAccounts(0, 100, "", apikey)
   return users.items
 }
 
-
-
 export const fetchOrganizations = async (apikey: string): Promise<Organization[]> => {
   const organizations = await listOrganizations(apikey)
-
   return organizations
+}
+
+export const fetchOrganization = async (orgId: string, isCustomerId: boolean, apikey: string): Promise<Organization | null> => {
+  const organization = await getOrganization(orgId, isCustomerId, true, apikey)
+  return organization
 }

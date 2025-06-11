@@ -21,6 +21,8 @@ import { Label } from "@/components/ui/label"
 import { Badge } from "@/components/ui/badge"
 import { orgSchema } from "@/components/org-schema"
 import { useRouter } from "next/navigation";
+import { UserSelect } from "@/components/user-dropdown";
+import { Account } from "tailrix";
 
 
 export function OrgCellViewer({ item }: { item: z.infer<typeof orgSchema> }) {
@@ -28,13 +30,15 @@ export function OrgCellViewer({ item }: { item: z.infer<typeof orgSchema> }) {
     const [open, setOpen] = React.useState(false);
     const formRef = React.useRef<HTMLFormElement>(null)
     const router = useRouter();
+    const [organization, setOrganization] = React.useState<z.infer<typeof orgSchema>>(item);
+    const [members, setMembers] = React.useState<Account[]>([]);
 
     const handleUpdate = async () => {
         if (!formRef.current) return
         const formData = new FormData(formRef.current)
         const validation = orgSchema.safeParse({
-            id: item.id,
-            orgId: item.orgId,
+            id: organization.id,
+            orgId: organization.orgId,
             name: formData.get("name")?.toString().trim() || "",
             description: formData.get("description")?.toString().trim() || "",
         });
@@ -58,7 +62,7 @@ export function OrgCellViewer({ item }: { item: z.infer<typeof orgSchema> }) {
     const handleDelete = async () => {
         if (window.confirm("Are you sure you want to delete this organization?")) {
             try {
-                await deleteOrg(item.orgId);
+                await deleteOrg(organization.orgId);
                 // alert("Organization deleted successfully!"); // Optional
                 setOpen(false); // Close the drawer
             } catch (error) {
@@ -68,16 +72,41 @@ export function OrgCellViewer({ item }: { item: z.infer<typeof orgSchema> }) {
         }
     };
 
+
+    React.useEffect(() => {
+        const fetchMemberList = async () => {
+            try {
+                const res = await fetch(`/api/org?orgId=${organization.orgId}`)
+                if (!res.ok) {
+                    throw new Error(`Error fetching organization data: ${res.statusText}`);
+                }
+
+                const data = await res.json();
+                if (!data) {
+                    throw new Error("Organization data not found");
+                }
+
+                console.log("Fetched organization data:", data);
+
+                setMembers(data.fullMembers || []);
+            } catch (error) {
+                console.error("Failed to fetch organization data:", error);
+                alert("Failed to fetch organization data. See console for details."); // Optional
+            }
+        };
+        fetchMemberList();
+    }, [organization.orgId]);
+
     return (
         <Drawer open={open} onOpenChange={setOpen} direction={isMobile ? "bottom" : "right"}>
             <DrawerTrigger asChild>
                 <Button variant="link" className="text-foreground w-fit px-0 text-left" onClick={() => setOpen(true)}>
-                    {item.name}
+                    {organization.name}
                 </Button>
             </DrawerTrigger>
             <DrawerContent>
                 <DrawerHeader className="gap-1">
-                    <DrawerTitle>{item.name}</DrawerTitle>
+                    <DrawerTitle>{organization.name}</DrawerTitle>
                     <DrawerDescription>
                         Details of the organization.
                     </DrawerDescription>
@@ -87,17 +116,27 @@ export function OrgCellViewer({ item }: { item: z.infer<typeof orgSchema> }) {
                         <div className="flex flex-col gap-3">
                             <Label htmlFor="header">Id</Label>
                             <Badge variant="outline" className="text-muted-foreground px-1.5">
-                                {item.orgId}
+                                {organization.orgId}
                             </Badge>
-                            <input type="hidden" name="orgId" value={item.orgId} />
+                            <input type="hidden" name="orgId" value={organization.orgId} />
                         </div>
                         <div className="flex flex-col gap-3">
                             <Label htmlFor="header">Name</Label>
-                            <Input id="name" name="name" defaultValue={item.name} />
+                            <Input id="name" name="name" defaultValue={organization.name} />
                         </div>
                         <div className="flex flex-col gap-3">
                             <Label htmlFor="description">Description</Label>
-                            <Input id="description" name="description" defaultValue={item.description} />
+                            <Input id="description" name="description" defaultValue={organization.description} />
+                        </div>
+                        <Label htmlFor="member list">Members</Label>
+                        <div className="inline-flex items-center h-10 whitespace-nowrap">
+                            <UserSelect users={[]} currentUserId={""} onUserSelect={() => { }} />
+                            <Button variant="outline" className="ml-3">Remove</Button>
+                        </div>
+                        <Label htmlFor="add_member" >Add a member</Label>
+                        <div className="inline-flex items-center h-10 whitespace-nowrap">
+                            <UserSelect users={[]} currentUserId={""} onUserSelect={() => { }} />
+                            <Button variant="outline" className="ml-3 shrink-0 h-10">Add</Button>
                         </div>
                     </form>
                 </div>
@@ -108,7 +147,7 @@ export function OrgCellViewer({ item }: { item: z.infer<typeof orgSchema> }) {
                         <Button variant="outline">Done</Button>
                     </DrawerClose>
                 </DrawerFooter>
-            </DrawerContent>
-        </Drawer>
+            </DrawerContent >
+        </Drawer >
     )
 }
