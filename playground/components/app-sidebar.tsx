@@ -25,12 +25,13 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
+import { availableMemory } from "process"
 
 const data = {
   user: {
     name: "tailrix",
     email: "post@tailrix.com",
-    avatar: "/avatars/shadcn.jpg",
+    avatar: "https://avatars.githubusercontent.com/u/123456789?v=4"
   },
   navMain: [
     {
@@ -46,20 +47,10 @@ const data = {
   ],
   navSecondary: [
     {
-      title: "Settings",
-      url: "#",
-      icon: IconSettings,
-    },
-    {
       title: "Get Help",
       url: "#",
       icon: IconHelp,
-    },
-    {
-      title: "Search",
-      url: "#",
-      icon: IconSearch,
-    },
+    }
   ],
   documents: [
     {

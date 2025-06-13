@@ -215,7 +215,7 @@ export function OrgCellViewer({ item }: { item: z.infer<typeof orgSchema> }) {
                         Delete
                     </Button>
                     <DrawerClose asChild>
-                        <Button variant="outline">Done</Button>
+                        <Button variant="outline">Close</Button>
                     </DrawerClose>
                 </DrawerFooter>
             </DrawerContent>
