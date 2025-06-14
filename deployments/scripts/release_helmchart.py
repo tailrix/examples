@@ -243,7 +243,7 @@ def log_charts(prefix: str, charts: Dict[str, str]):
     """ utility function to log the content of charts
 
     Args:
-        prefix (str): the prefix of log statemetn
+        prefix (str): the prefix of log statement
         charts (Dict[str, str]): list of charts to log
     """
     print(f'{prefix}:')
