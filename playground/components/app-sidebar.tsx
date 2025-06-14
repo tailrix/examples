@@ -8,8 +8,6 @@ import {
   IconHelp,
   IconInnerShadowTop,
   IconReport,
-  IconSearch,
-  IconSettings,
   IconUsers,
 } from "@tabler/icons-react"
 
@@ -25,7 +23,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { availableMemory } from "process"
 
 const data = {
   user: {
