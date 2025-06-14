@@ -155,10 +155,10 @@ def build_the_charts(config: Config, charts: Dict[str, str], index_yml: Dict) ->
             continue
 
         print(f'Building {chart}, {version}')
-        chart_pacakge = get_chart_pacakage(chart, version)
+        chart_package = get_chart_package(chart, version)
         ret = subprocess.run(
             f'cd {chart}&&helm package -u helm-charts/'
-            f'&&mv {chart_pacakge} ../{config.chart_binary_dir}/',
+            f'&&mv {chart_package} ../{config.chart_binary_dir}/',
             stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True, shell=True)
         print(ret.returncode, ret.stdout, ret.stderr)
 
@@ -188,7 +188,7 @@ def sha256_of(filename: str) -> str:
         return sha256_hash.hexdigest()
 
 
-def get_chart_pacakage(chart: str, version: str) -> str:
+def get_chart_package(chart: str, version: str) -> str:
     """ get the file name of the chart package
 
     Args:
