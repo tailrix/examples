@@ -3,8 +3,6 @@
 // New tests could be added here to mock '@/lib/utils' and test the wrapper behavior
 // (e.g., that it calls getApiKey and the imported fetchUsersFromUtils).
 
-// Example of how new tests might look (optional for this task):
-/*
 import { fetchUsers } from './users';
 import { getApiKey } from "@/app/actions/apikey";
 import { fetchUsers as fetchUsersFromUtils } from '@/lib/utils';
@@ -47,7 +45,7 @@ describe('fetchUsers server action wrapper', () => {
 
     it('should return empty array and log error if getApiKey fails', async () => {
         mockGetApiKey.mockResolvedValue(''); // Simulate API key not found
-        
+
         const result = await fetchUsers();
 
         expect(mockGetApiKey).toHaveBeenCalledTimes(1);
@@ -68,17 +66,5 @@ describe('fetchUsers server action wrapper', () => {
         expect(mockFetchUsersFromUtils).toHaveBeenCalledWith(testKey);
         expect(result).toEqual([]);
         expect(console.error).toHaveBeenCalledWith("Error in fetchUsers server action:", error);
-    });
-});
-*/
-
-// For now, the file is left mostly empty as per instructions to remove old tests.
-// If there were other describe blocks for other functions (e.g. createUser), they would remain.
-// Since there aren't, this file will be very minimal.
-describe('placeholder', () => {
-    it('should have tests for actions in users.ts', () => {
-        // This is a placeholder. Actual tests for the new wrapper are optional
-        // for the current subtask which focused on removing old tests.
-        expect(true).toBe(true);
     });
 });
