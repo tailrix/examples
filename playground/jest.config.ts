@@ -6,11 +6,11 @@ const config: Config = {
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/$1',
   },
-  globals: {
-    'ts-jest': {
-      useESM: true,
-    },
+  transformIgnorePatterns: ['/node_modules/(?!(tailrix)/)'],
+  transform: {
+    '^.+\\.tsx?$': ['ts-jest', { useESM: true }],
   },
+  extensionsToTreatAsEsm: ['.ts', '.tsx'],
 };
 
 export default config;
