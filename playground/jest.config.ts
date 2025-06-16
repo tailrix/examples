@@ -9,7 +9,7 @@ const config: Config = {
   transformIgnorePatterns: ['/node_modules/(?!(tailrix|tailrix_api_client)/)'],
   transform: {
     '^.+\\.tsx?$': ['ts-jest', { useESM: true }],
-    '^.+\\.jsx?$': 'babel-jest', // Ensure babel-jest is correctly referenced
+    '^.+\\.jsx?$': 'babel-jest',
   },
   extensionsToTreatAsEsm: ['.ts', '.tsx'],
 };
