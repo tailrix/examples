@@ -1,16 +1,17 @@
-import type { Config } from 'jest';
+import nextJest from 'next/jest.js'
 
-const config: Config = {
-  preset: 'ts-jest/presets/default-esm',
+const createJestConfig = nextJest({
+  dir: './',
+})
+
+// Add any custom config to be passed to Jest
+const customJestConfig = {
   testEnvironment: 'node',
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/$1',
   },
-  transformIgnorePatterns: ['/node_modules/(?!(tailrix)/)'],
-  transform: {
-    '^.+\\.tsx?$': ['ts-jest', { useESM: true }],
-  },
-  extensionsToTreatAsEsm: ['.ts', '.tsx'],
+  // No specific transformIgnorePatterns for tailrix needed if mocking.
+  // Let next/jest use its defaults.
 };
 
-export default config;
+export default createJestConfig(customJestConfig);
