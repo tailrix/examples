@@ -1,5 +1,5 @@
 urllib3==1.26.19
-GitPython==3.1.30
+GitPython==3.1.41
 python-dateutil==2.7.3
 PyYAML==6.0.2
 requests==2.32.3
