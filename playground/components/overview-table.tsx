@@ -57,7 +57,7 @@ const OverviewTable = async ({ accountId, orgId, isCustomerId }: FeatureTablePro
 
     return (<DataTable
         key={accountId + orgId}
-        data={featureTableData}
+        features={featureTableData}
         users={userTableData}
         currentUserId={accountId}
         currentOrgId={orgId}

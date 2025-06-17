@@ -121,10 +121,23 @@ export function OrgCellViewer({ item }: { item: z.infer<typeof orgSchema> }) {
         fetchAllUsers()
     }, [open, fetchMemberList, fetchAllUsers])
 
-    const memberOptions = members.map(u => ({ id: u.id, name: u.name, email: u.email }))
+    const memberOptions = members.map(u => ({
+        id: u.id,
+        name: u.name,
+        email: u.email,
+        organizationIds: u.organizationIds,
+        organizationNames: u.organizationNames
+    }))
+
     const addableUsers = allUsers
         .filter(u => !members.some(m => m.id === u.id))
-        .map(u => ({ id: u.id, name: u.name, email: u.email }))
+        .map(u => ({
+            id: u.id,
+            name: u.name,
+            email: u.email,
+            organizationIds: u.organizationIds,
+            organizationNames: u.organizationNames
+        }))
 
     return (
         <Drawer open={open} onOpenChange={setOpen} direction={isMobile ? "bottom" : "right"}>

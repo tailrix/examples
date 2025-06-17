@@ -100,6 +100,7 @@ import {
 import { User, UserSelect } from "./user-dropdown"
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { OrgSelect } from "@/components/org-dropdown"
+import { SubscriptionTabContent } from "@/components/sub-tabcontent"
 
 export const schema = z.object({
   id: z.number(),
@@ -222,17 +223,17 @@ function DraggableRow({ row }: { row: Row<z.infer<typeof schema>> }) {
 }
 
 export function DataTable({
-  data: initialData,
+  features: initialFeatures,
   users,
   currentUserId,
   currentOrgId
 }: {
-  data: z.infer<typeof schema>[],
+  features: z.infer<typeof schema>[],
   users: User[],
   currentUserId: string,
   currentOrgId: string
 }) {
-  const [data, setData] = React.useState(() => initialData)
+  const [data, setData] = React.useState(() => initialFeatures)
   const [rowSelection, setRowSelection] = React.useState({})
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({})
@@ -526,12 +527,7 @@ export function DataTable({
           </div>
         </div>
       </TabsContent>
-      <TabsContent
-        value="subscriptions"
-        className="flex flex-col px-4 lg:px-6"
-      >
-        <div className="aspect-video w-full flex-1 rounded-lg border border-dashed"></div>
-      </TabsContent>
+      <SubscriptionTabContent accountId={currentUserId} orgId={currentOrgId} />
     </Tabs>
   )
 }
