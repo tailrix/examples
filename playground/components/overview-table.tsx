@@ -1,9 +1,10 @@
-import { DataTable, schema } from "./data-table"
+import { FeatureSubscriptionTable } from "./feature-sub-table"
 import { z } from "zod"
 import { fetchFeatures, fetchUsers } from "@/lib/utils"
 import { FeatureWithSource, ResponseError } from "tailrix"
 import { getApiKey } from "@/app/actions/apikey"
 import { redirect } from 'next/navigation';
+import { featureSchema } from "./feature-schema"
 
 interface FeatureTableProps {
     accountId: string
@@ -34,7 +35,7 @@ const OverviewTable = async ({ accountId, orgId, isCustomerId }: FeatureTablePro
         }
     }
 
-    const featureTableData = featureData.map<z.infer<typeof schema>>((feature, index) => ({
+    const featureTableData = featureData.map<z.infer<typeof featureSchema>>((feature, index) => ({
         id: index,
         featureId: feature.id,
         customId: feature.customId,
@@ -55,15 +56,13 @@ const OverviewTable = async ({ accountId, orgId, isCustomerId }: FeatureTablePro
         organizationNames: user.organizationNames,
     }))
 
-    return (<DataTable
+    return (<FeatureSubscriptionTable
         key={accountId + orgId}
         features={featureTableData}
         users={userTableData}
         currentUserId={accountId}
         currentOrgId={orgId}
-    >
-    </DataTable>)
+    />)
 }
-
 
 export default OverviewTable
