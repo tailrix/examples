@@ -36,6 +36,7 @@ export function OrgSelect({
             <SelectContent>
                 <SelectGroup>
                     <SelectLabel>Organization</SelectLabel>
+                    <SelectItem key="personal" value="personal">personal</SelectItem>
                     {orgs.map((org) => (
                         <SelectItem
                             key={org.id}

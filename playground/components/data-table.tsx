@@ -223,12 +223,14 @@ function DraggableRow({ row }: { row: Row<z.infer<typeof schema>> }) {
 
 export function DataTable({
   data: initialData,
-  users: initialUsers,
-  currentUserId
+  users,
+  currentUserId,
+  currentOrgId
 }: {
   data: z.infer<typeof schema>[],
   users: User[],
-  currentUserId: string
+  currentUserId: string,
+  currentOrgId: string
 }) {
   const [data, setData] = React.useState(() => initialData)
   const [rowSelection, setRowSelection] = React.useState({})
@@ -293,10 +295,27 @@ export function DataTable({
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
+  const currentUser = users.find(user => user.id === currentUserId);
+  const orgList = (currentUser?.organizationNames || []).map((name, index) => ({
+    id: currentUser?.organizationIds[index] || "",
+    name: name,
+    description: "",
+    customerId: "",
+  }))
 
   const handleUserSelected = (userId: string) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("accountId", userId);
+    router.replace(`${pathname}?${params.toString()}`);
+  }
+
+  const handleOrgSelected = (orgId: string) => {
+    if (orgId === "personal") {
+      orgId = "";
+    }
+
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("orgId", orgId);
     router.replace(`${pathname}?${params.toString()}`);
   }
 
@@ -330,14 +349,14 @@ export function DataTable({
         </TabsList>
         <div className="flex items-center gap-2">
           <UserSelect
-            users={initialUsers}
+            users={users}
             onUserSelect={(userId) => { handleUserSelected(userId) }}
             currentUserId={currentUserId}
           />
           <OrgSelect
-            orgs={[]}
-            currentOrgId=""
-            onOrgSelect={() => { }}
+            orgs={orgList}
+            currentOrgId={currentOrgId}
+            onOrgSelect={(orgId) => { handleOrgSelected(orgId) }}
           />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

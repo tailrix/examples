@@ -51,6 +51,8 @@ const OverviewTable = async ({ accountId, orgId, isCustomerId }: FeatureTablePro
         id: user.id,
         name: user.name,
         email: user.email,
+        organizationIds: user.organizationIds,
+        organizationNames: user.organizationNames,
     }))
 
     return (<DataTable
@@ -58,6 +60,7 @@ const OverviewTable = async ({ accountId, orgId, isCustomerId }: FeatureTablePro
         data={featureTableData}
         users={userTableData}
         currentUserId={accountId}
+        currentOrgId={orgId}
     >
     </DataTable>)
 }

@@ -14,6 +14,8 @@ export type User = {
     id: string
     name: string
     email: string
+    organizationIds: string[]
+    organizationNames: string[]
 }
 
 interface UserSelectProps {
