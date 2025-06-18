@@ -1,10 +1,10 @@
-import { FeatureSubscriptionTable } from "./feature-sub-table"
+import { FeatureSubscriptionTable } from "@/components/feature-sub-table"
 import { z } from "zod"
 import { fetchFeatures, fetchUsers } from "@/lib/utils"
 import { FeatureWithSource, ResponseError } from "tailrix"
 import { getApiKey } from "@/app/actions/apikey"
 import { redirect } from 'next/navigation';
-import { featureSchema } from "./feature-schema"
+import { featureSchema } from "@/components/feature-schema"
 
 interface FeatureTableProps {
     accountId: string

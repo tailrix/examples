@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/drawer"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { userSchema } from "./user-schema"
+import { userSchema } from "@/components/user-schema"
 import { Badge } from "@/components/ui/badge"
 import { useRouter } from "next/navigation";
 import { Checkbox } from "@/components/ui/checkbox";

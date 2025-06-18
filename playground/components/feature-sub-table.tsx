@@ -16,12 +16,12 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
-import { User, UserSelect } from "./user-dropdown"
+import { User, UserSelect } from "@/components/user-dropdown"
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { OrgSelect } from "@/components/org-dropdown"
 import { SubscriptionTabContent } from "@/components/sub-tabcontent"
-import { featureSchema } from "./feature-schema"
-import { FeatureTabContent } from "./feature-tabcontent"
+import { featureSchema } from "@/components/feature-schema"
+import { FeatureTabContent } from "@/components/feature-tabcontent"
 
 export function FeatureSubscriptionTable({
   features: initialFeatures,

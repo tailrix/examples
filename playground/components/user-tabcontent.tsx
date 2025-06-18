@@ -13,8 +13,8 @@ import {
 
 import { DataTable } from "@/components/table"
 import { UserNewDialogue } from "@/components/user-new-dialogue"
-import { userSchema } from "./user-schema"
-import { UserCellViewer } from "./user-cellviewer"
+import { userSchema } from "@/components/user-schema"
+import { UserCellViewer } from "@/components/user-cellviewer"
 
 const UserTableColumns: ColumnDef<z.infer<typeof userSchema>>[] = [
     {

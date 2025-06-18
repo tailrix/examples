@@ -11,7 +11,8 @@ import {
 } from "@/components/ui/tabs"
 
 import { DataTable } from "@/components/table"
-import { featureSchema } from "./feature-schema"
+import { featureSchema } from "@/components/feature-schema"
+import { Badge } from "@/components/ui/badge"
 
 const FeatureTableColumns: FeatureColumnDef<z.infer<typeof featureSchema>>[] = [
     {
@@ -28,6 +29,26 @@ const FeatureTableColumns: FeatureColumnDef<z.infer<typeof featureSchema>>[] = [
         enableResizing: true
     },
     {
+        accessorKey: "type",
+        header: "Type",
+        cell: ({ row }) => (
+            <div className="w-32">
+                <Badge variant="outline" className="text-muted-foreground px-1.5">
+                    {row.original.type}
+                </Badge>
+            </div>
+        ),
+    },
+    {
+        accessorKey: "value",
+        header: "Value",
+        cell: ({ row }) => (
+            <div className="w-32">
+                {row.original.value}
+            </div >
+        ),
+    },
+    {
         accessorKey: "description",
         header: "Description",
         cell: ({ row }) => (
@@ -35,7 +56,16 @@ const FeatureTableColumns: FeatureColumnDef<z.infer<typeof featureSchema>>[] = [
                 {row.original.type}
             </div>
         ),
-    }
+    },
+    {
+        accessorKey: "featureId",
+        header: "Id",
+        cell: ({ row }) => (
+            <Badge variant="outline" className="text-muted-foreground px-1.5">
+                {row.original.featureId}
+            </Badge>
+        ),
+    },
 ]
 
 export function FeatureTabContent({

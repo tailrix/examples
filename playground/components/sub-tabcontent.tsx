@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/tabs"
 
 import { DataTable } from "@/components/table"
-import { subSchema } from "./sub-schema"
+import { subSchema } from "@/components/sub-schema"
 import { Subscription } from "tailrix"
 
 const SubscriptionTableColumns: ColumnDef<z.infer<typeof subSchema>>[] = [

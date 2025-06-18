@@ -19,7 +19,7 @@ import {
 
 import { UserTabContent } from "@/components/user-tabcontent"
 import { OrgTabContent } from "@/components/org-tabcontent"
-import { userSchema } from "./user-schema"
+import { userSchema } from "@/components/user-schema"
 import { orgSchema } from "@/components/org-schema"
 import { useSearchParams, useRouter } from "next/navigation";
 
