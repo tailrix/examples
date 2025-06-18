@@ -26,6 +26,7 @@ export function NavMain({
 
   const onClick = (url: string) => () => {
     const params = new URLSearchParams(searchParams.toString());
+    params.delete("tab"); // Remove the "tab" parameter
     const newUrl = new URL(url, window.location.origin)
     newUrl.search = params.toString()
     router.push(newUrl.toString());

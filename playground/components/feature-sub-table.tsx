@@ -38,6 +38,10 @@ export function FeatureSubscriptionTable({
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
+  const tab = searchParams.get("tab");
+  const validTabs = ["features", "subscriptions"];
+  const currentTab = tab && validTabs.includes(tab) ? tab : "features";
+
   const currentUser = users.find(user => user.id === currentUserId);
   const orgList = (currentUser?.organizationNames || []).map((name, index) => ({
     id: currentUser?.organizationIds[index] || "",
@@ -62,9 +66,16 @@ export function FeatureSubscriptionTable({
     router.replace(`${pathname}?${params.toString()}`);
   }
 
+  const handleTabChange = (value: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("tab", value);
+    router.replace(`${pathname}?${params.toString()}`);
+  }
+
   return (
     <Tabs
-      defaultValue="features"
+      defaultValue={currentTab}
+      onValueChange={handleTabChange}
       className="w-full flex-col justify-start gap-6"
     >
       <div className="flex items-center justify-between px-4 lg:px-6">
