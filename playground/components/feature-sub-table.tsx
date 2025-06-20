@@ -53,6 +53,7 @@ export function FeatureSubscriptionTable({
   const handleUserSelected = (userId: string) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("accountId", userId);
+    params.delete("orgId"); // Remove orgId when user changes
     router.replace(`${pathname}?${params.toString()}`);
   }
 
